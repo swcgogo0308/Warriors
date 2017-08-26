@@ -4,10 +4,13 @@ using System.Collections;
 
 public class Ball_Moter : MonoBehaviour
 {
+	public float limitPadding;
+
     public float moveSpeed = 10.0f;
     public float drag = 0.5f;
-    public Vector3 MoveVector { set; get; }
+    public Vector2 MoveVector { set; get; }
     public VirtualJoystick joystick;
+	private LimitArea limitArea;
 
     private Rigidbody2D thisRigidbody;
 
@@ -27,7 +30,8 @@ public class Ball_Moter : MonoBehaviour
 
     private void Move()
     {
-        thisRigidbody.velocity = MoveVector * moveSpeed;
+		thisRigidbody.position += limitArea.Clamp(transform.position + moveSpeed);
+		//rigidbody.position = limitArea.Clamp(transform.position + movePos);
     }
 
     private Vector3 PoolInput()
@@ -45,4 +49,10 @@ public class Ball_Moter : MonoBehaviour
 
         return dir;
     }
+
+
+	private void SetupLimitArea()
+	{
+		limitArea = MapManager.LimitArea.AddMargin(limitPadding);
+	}
 }

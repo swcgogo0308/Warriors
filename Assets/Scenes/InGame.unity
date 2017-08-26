@@ -380,7 +380,7 @@ GameObject:
   - component: {fileID: 774544836}
   - component: {fileID: 774544835}
   m_Layer: 5
-  m_Name: backgroundImage
+  m_Name: JoystickBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -686,7 +686,7 @@ GameObject:
   - component: {fileID: 1688740532}
   - component: {fileID: 1688740531}
   m_Layer: 5
-  m_Name: VirtualJoystick
+  m_Name: GameUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -784,7 +784,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1820742619
 SpriteRenderer:
   m_ObjectHideFlags: 0
