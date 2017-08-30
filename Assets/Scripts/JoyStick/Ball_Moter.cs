@@ -30,8 +30,8 @@ public class Ball_Moter : MonoBehaviour
 
     private void Move()
     {
-		thisRigidbody.position += limitArea.Clamp(transform.position + moveSpeed);
-		//rigidbody.position = limitArea.Clamp(transform.position + movePos);
+        thisRigidbody.velocity = MoveVector * moveSpeed;
+        //rigidbody.position = limitArea.Clamp(transform.position + movePos);
     }
 
     private Vector3 PoolInput()

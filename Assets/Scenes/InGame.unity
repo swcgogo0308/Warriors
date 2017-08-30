@@ -275,6 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9464db2d06fbe0b4aaaa23ceb3cc6e97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  limitPadding: 0
   moveSpeed: 10
   drag: 0.5
   joystick: {fileID: 774544835}
@@ -800,7 +801,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1820742619
 SpriteRenderer:
   m_ObjectHideFlags: 0
