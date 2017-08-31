@@ -8,9 +8,10 @@ public class Ball_Moter : MonoBehaviour
 
     public float moveSpeed = 10.0f;
     public float drag = 0.5f;
-    public Vector2 MoveVector { set; get; }
+    public Vector3 MoveVector;
     public VirtualJoystick joystick;
 	private LimitArea limitArea;
+
 
     private Rigidbody2D thisRigidbody;
 
@@ -26,12 +27,33 @@ public class Ball_Moter : MonoBehaviour
         MoveVector = PoolInput();
 
         Move();
+
+        Ontouch();
+
+
     }
 
     private void Move()
     {
         thisRigidbody.velocity = MoveVector * moveSpeed;
-        //rigidbody.position = limitArea.Clamp(transform.position + movePos);
+
+        //transform.position += limitArea.Clamp(MoveVector + transform.position * moveSpeed * Time.deltaTime);
+        //rigidbody.position = limitArea.Clamp(transform.position + movePos); 
+    }
+
+    public void Ontouch()
+    {
+        if (Input.GetMouseButtonUp(0) == false) return;
+
+        Vector3 mpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 target;
+        target.x = mpos.x - transform.position.x;
+        target.y = mpos.y - transform.position.y;
+        float angle = -1 * Mathf.Rad2Deg * Mathf.Atan2(target.x, target.y) + 90;
+
+        transform.eulerAngles = new Vector3(0, 0, angle + 180.0f);
+
+        //transform.Find("Sword_test");
     }
 
     private Vector3 PoolInput()
