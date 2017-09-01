@@ -2,15 +2,24 @@
 using UnityEngine;
 using System.Collections;
 
-public class Ball_Moter : MonoBehaviour
+public class Player : MonoBehaviour
 {
+    [Header ("Weapon")]
+    public Weapon myWeapon;
+
+    [Header ("LimitPadding")]
 	public float limitPadding;
 
+    [Header ("Movement")]
     public float moveSpeed = 10.0f;
     public float drag = 0.5f;
-    public Vector3 MoveVector;
+
+    [Header ("Joystick")]
     public VirtualJoystick joystick;
+
 	private LimitArea limitArea;
+    private Vector3 MoveVector;
+
 
 
     private Rigidbody2D thisRigidbody;
@@ -41,19 +50,32 @@ public class Ball_Moter : MonoBehaviour
         //rigidbody.position = limitArea.Clamp(transform.position + movePos); 
     }
 
-    public void Ontouch()
+    private void Ontouch()
     {
-        if (Input.GetMouseButtonUp(0) == false) return;
+        if (myWeapon._isAttacking) return;
 
+        if(Input.GetMouseButtonUp(0))
+        {
+            Rotate();
+
+            myWeapon.Attack();
+        }
+        else if(Input.GetMouseButtonDown(0))
+        {
+            Rotate();
+
+            myWeapon.Shild();
+        }
+    }
+
+    void Rotate()
+    {
         Vector3 mpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 target;
         target.x = mpos.x - transform.position.x;
         target.y = mpos.y - transform.position.y;
         float angle = -1 * Mathf.Rad2Deg * Mathf.Atan2(target.x, target.y) + 90;
-
         transform.eulerAngles = new Vector3(0, 0, angle + 180.0f);
-
-        //transform.Find("Sword_test");
     }
 
     private Vector3 PoolInput()
