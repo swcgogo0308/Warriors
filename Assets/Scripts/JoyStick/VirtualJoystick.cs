@@ -10,6 +10,8 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
     private Image joystickImg;
     private Vector3 inputVector;
 
+	public bool isDrag;
+
     private void Start()
     {
         bgImg = GetComponent<Image>();
@@ -21,6 +23,8 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
         Vector2 pos;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(bgImg.rectTransform, ped.position, ped.pressEventCamera, out pos))
         {
+			isDrag = true;
+
             pos.x = (pos.x / bgImg.rectTransform.sizeDelta.x);
             pos.y = (pos.y / bgImg.rectTransform.sizeDelta.y);
 
@@ -34,29 +38,26 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
 
     public void OnPointerDown(PointerEventData ped)
     {
+		isDrag = true;
+
         OnDrag(ped);
     }
 
     public void OnPointerUp(PointerEventData ped)
     {
+		isDrag = false;
         inputVector = Vector3.zero;
         joystickImg.rectTransform.anchoredPosition = Vector3.zero;
     }
 
     public float Horizontal()
     {
-        if (inputVector.x != 0)
-            return inputVector.x;
-        else
-            return Input.GetAxis("Horizontal");
+		return inputVector.x;
     }
 
     public float Vertical()
     {
-        if (inputVector.z != 0)
-            return inputVector.z;
-        else
-            return Input.GetAxis("Vertical");
+		return inputVector.z;
     }
 
 }

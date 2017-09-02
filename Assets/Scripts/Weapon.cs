@@ -5,21 +5,23 @@ using UnityEngine;
 public class Weapon : MonoBehaviour {
 
     public int damage;
-    public float weaponDelay;
+	public float attackDelay;
 
     public bool isEpic;
     public bool isSpeacial;
 
-    public Animator attack;
+    public Animator weaponAni;
 
     public PolygonCollider2D myColider;
 
     public bool _isAttacking;
 
+	public bool _isBlocking;
+
     // Use this for initialization
     void Start () {
         PolygonCollider2D myColider = GetComponent<PolygonCollider2D>();
-        attack = GetComponent<Animator>();
+        weaponAni = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -32,32 +34,42 @@ public class Weapon : MonoBehaviour {
         StartCoroutine(Attacking());
     }
 
-    public void Shild()
+	public void Shild(bool touchDown)
     {
-        if (_isAttacking) return;
-
+		//if (_isAttacking) return;
+		StartCoroutine (Blocking (touchDown));
         //TODO Guard
     }
 
     IEnumerator Attacking()
     {
         _isAttacking = true;
-        attack.SetBool("isAttacking", true);
+		 
+        weaponAni.SetBool("isAttacking", true);
         yield return new WaitForSeconds(1f);
-        attack.SetBool("isAttacking", false);
-        yield return new WaitForSeconds(weaponDelay);
+        weaponAni.SetBool("isAttacking", false);
+
+		yield return new WaitForSeconds(attackDelay);
 
         _isAttacking = false;
-
     }
+
+	IEnumerator Blocking(bool touchDown)
+	{
+		weaponAni.SetBool ("isBlocking", touchDown);
+
+		yield return new WaitForSeconds (0.005f);
+	}
 
     private void OnTriggerEnter2D(Collider2D hit)
     {
-        if (_isAttacking == false) return;
+		if (_isAttacking) {
 
-        if (hit.tag == "Weapon")
-        {
-            //TODO Parring
-        }
+			if (hit.tag == "Weapon") {
+				//TODO Parring
+			}
+		} else if (_isBlocking) {
+			
+		}
     }
 }

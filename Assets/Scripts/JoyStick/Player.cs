@@ -1,6 +1,7 @@
 ﻿//공을 움직이는 코드
 using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
@@ -20,8 +21,6 @@ public class Player : MonoBehaviour
 	private LimitArea limitArea;
     private Vector3 MoveVector;
 
-
-
     private Rigidbody2D thisRigidbody;
 
     void Start()
@@ -31,14 +30,15 @@ public class Player : MonoBehaviour
         thisRigidbody.drag = drag;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         MoveVector = PoolInput();
+
+		Rotate_keybord ();
 
         Move();
 
         Ontouch();
-
 
     }
 
@@ -52,21 +52,26 @@ public class Player : MonoBehaviour
 
     private void Ontouch()
     {
-        if (myWeapon._isAttacking) return;
+		//if (joystick.isDrag) return;
 
-        if(Input.GetMouseButtonUp(0))
-        {
-            Rotate();
+		if (Input.GetMouseButtonDown (0) && !myWeapon._isAttacking) {
+			Rotate ();
+			myWeapon.Attack ();
+		}
 
-            myWeapon.Attack();
-        }
-        else if(Input.GetMouseButtonDown(0))
-        {
-            Rotate();
+		else if (Input.GetMouseButton(0)) {
+			if(!myWeapon._isAttacking)
+				Rotate ();
+			myWeapon.Shild (true);
+		}
 
-            myWeapon.Shild();
-        }
-    }
+		else if (Input.GetMouseButtonUp (0)) {
+
+			myWeapon.Shild (false);
+		}
+
+			
+	}
 
     void Rotate()
     {
@@ -77,6 +82,25 @@ public class Player : MonoBehaviour
         float angle = -1 * Mathf.Rad2Deg * Mathf.Atan2(target.x, target.y) + 90;
         transform.eulerAngles = new Vector3(0, 0, angle + 180.0f);
     }
+
+	void Rotate_keybord()
+	{
+		if (Input.GetKey (KeyCode.W)) {
+			transform.eulerAngles = new Vector3 (0, 0, 270);
+		}
+
+		else if (Input.GetKey (KeyCode.S)) {
+			transform.eulerAngles = new Vector3 (0, 0, 90);
+		}
+
+		else if (Input.GetKey (KeyCode.A)) {
+			transform.eulerAngles = new Vector3 (0, 0, 0);
+		}
+
+		else if (Input.GetKey (KeyCode.D)) {
+			transform.eulerAngles = new Vector3 (0, 0, 180);
+		}
+	}
 
     private Vector3 PoolInput()
     {
