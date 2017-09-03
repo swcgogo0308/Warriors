@@ -66,7 +66,7 @@ public class Weapon : MonoBehaviour {
 		if (_isAttacking) {
 
 			if (hit.tag == "Weapon") {
-				//TODO Parring
+				
 			}
 		} else if (_isBlocking) {
 			

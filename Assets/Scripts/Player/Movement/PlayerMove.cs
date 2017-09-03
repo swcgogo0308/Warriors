@@ -1,10 +1,13 @@
 ﻿//공을 움직이는 코드
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Player : MonoBehaviour
+public class PlayerMove : MonoBehaviour
 {
+    public Slider healthBarSlider;
+
     [Header ("Weapon")]
     public Weapon myWeapon;
 
@@ -19,7 +22,7 @@ public class Player : MonoBehaviour
     public VirtualJoystick joystick;
 
 	private LimitArea limitArea;
-    private Vector3 MoveVector;
+    private Vector2 MoveVector;
 
     private Rigidbody2D thisRigidbody;
 
@@ -28,6 +31,12 @@ public class Player : MonoBehaviour
         thisRigidbody = gameObject.AddComponent<Rigidbody2D>();
         thisRigidbody = GetComponent<Rigidbody2D>();
         thisRigidbody.drag = drag;
+
+        if(myWeapon != null)
+        {
+            myWeapon = GameObject.FindGameObjectWithTag("Weapon").GetComponent<Weapon>();
+
+        }
     }
 
     private void LateUpdate()
@@ -42,17 +51,22 @@ public class Player : MonoBehaviour
 
     }
 
+    void CheakHealth()
+    {
+
+    }
+
     private void Move()
     {
         thisRigidbody.velocity = MoveVector * moveSpeed;
-
+        //thisRigidbody.velocity = limitArea.Clamp()
         //transform.position += limitArea.Clamp(MoveVector + transform.position * moveSpeed * Time.deltaTime);
         //rigidbody.position = limitArea.Clamp(transform.position + movePos); 
     }
 
     private void Ontouch()
     {
-		if (joystick.isDrag) return;
+		if (joystick.isDrag || myWeapon == null) return;
 
 		if (Input.GetMouseButtonDown (0) && !myWeapon._isAttacking) {
 			Rotate ();
@@ -102,9 +116,9 @@ public class Player : MonoBehaviour
 		}
 	}
 
-    private Vector3 PoolInput()
+    private Vector2 PoolInput()
     {
-        Vector3 dir = Vector3.zero;
+        Vector2 dir = Vector3.zero;
 
         //dir.x= Input.GetAxis("Horizontal");
         //dir.z= Input.GetAxis("vertical");
