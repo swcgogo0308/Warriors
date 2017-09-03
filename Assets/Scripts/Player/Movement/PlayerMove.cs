@@ -51,11 +51,6 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    void CheakHealth()
-    {
-
-    }
-
     private void Move()
     {
         thisRigidbody.velocity = MoveVector * moveSpeed;
