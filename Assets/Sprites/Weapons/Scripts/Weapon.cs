@@ -58,7 +58,7 @@ public class Weapon : MonoBehaviour {
 	{
 		weaponAni.SetBool ("isBlocking", touchDown);
 
-		yield return new WaitForSeconds (0.005f);
+		yield return new WaitForSeconds (0.000001f);
 	}
 
     private void OnTriggerEnter2D(Collider2D hit)

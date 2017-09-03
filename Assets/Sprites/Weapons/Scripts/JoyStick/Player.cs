@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
 
     private void Ontouch()
     {
-		//if (joystick.isDrag) return;
+		if (joystick.isDrag) return;
 
 		if (Input.GetMouseButtonDown (0) && !myWeapon._isAttacking) {
 			Rotate ();
