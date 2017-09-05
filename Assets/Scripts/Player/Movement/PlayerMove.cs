@@ -28,6 +28,7 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
+        SetupLimitArea();
         thisRigidbody = GetComponent<Rigidbody2D>();
         thisRigidbody.drag = drag;
 
@@ -38,22 +39,26 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+
+    private void FixedUpdate()
+    {
+        Move();
+    }
+
     private void LateUpdate()
     {
         PoolInput();
-
-        Move();
 
         Ontouch();
 
     }
 
     private void Move()
-    {
-        //Vector3 movePos = transform.right * MoveVector.magnitude * moveSpeed * Time.fixedDeltaTime;
-        //thisRigidbody.position = limitArea.Clamp(transform.position + movePos); //플레이어가 안움직임
+    { 
+        Vector3 movePos = transform.right * MoveVector.magnitude * moveSpeed * Time.fixedDeltaTime;
+        thisRigidbody.position = limitArea.Clamp(transform.position + movePos); //플레이어가 안움직임
 
-        thisRigidbody.velocity = MoveVector * moveSpeed;  //여기는 잘 돌아감.
+        //thisRigidbody.velocity = MoveVector * moveSpeed;  //여기는 잘 돌아감.
     }
 
     private void Ontouch()
