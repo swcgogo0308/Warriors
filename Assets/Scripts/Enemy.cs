@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour {
 
     public bool isRange;
 
+    bool isAttack;
+
     [Header("Weapon")]
     public Weapon myWeapon;
     // Use this for initialization
@@ -43,8 +45,20 @@ public class Enemy : MonoBehaviour {
         direction.z = 0;
         direction.Normalize();
 
+        Rotate(false);
+
         Vector3 movePos = transform.position + (direction * moveSpeed * Time.deltaTime);
         transform.position = movePos;
+    }
+
+    void Rotate(bool isAttakck)
+    {
+        float angle = -1 * Mathf.Rad2Deg * Mathf.Atan2(direction.x, direction.y) + 90;
+
+        if(!isAttack)
+            transform.eulerAngles = new Vector3(0, 0, angle + 180.0f);
+        else
+            transform.eulerAngles = new Vector3(0, 0, angle);
     }
 
     private IEnumerator CheckFoward()
@@ -53,7 +67,7 @@ public class Enemy : MonoBehaviour {
         {
             yield return null;
 
-            Ray2D ray = new Ray2D(rayTransform.position, transform.right);
+            Ray2D ray = new Ray2D(rayTransform.position, -transform.right);
 
             RaycastHit2D rayHit = Physics2D.Raycast(ray.origin, ray.direction, range);
 
@@ -64,6 +78,7 @@ public class Enemy : MonoBehaviour {
             }
 
             isRange = true;
+
             Attack();
 
             yield return new WaitForSeconds(0.2f);
@@ -73,6 +88,8 @@ public class Enemy : MonoBehaviour {
     private void Attack()
     {
         if (myWeapon._isAttacking) return;
+
+        Rotate(true);
 
         myWeapon.Attack();
     }

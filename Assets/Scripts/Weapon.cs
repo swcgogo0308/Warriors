@@ -49,7 +49,7 @@ public class Weapon : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         weaponAni.SetBool("isAttacking", false);
 
-		yield return new WaitForSeconds(attackDelay);
+        yield return new WaitForSeconds(attackDelay);
 
         _isAttacking = false;
     }
