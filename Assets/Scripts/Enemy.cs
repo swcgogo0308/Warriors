@@ -34,7 +34,6 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
         Move();
 	}
 
@@ -79,6 +78,10 @@ public class Enemy : MonoBehaviour {
 
             isRange = true;
 
+            if (isRange)
+                yield return new WaitForSeconds(2f);
+            else
+                continue;
             Attack();
 
             yield return new WaitForSeconds(0.2f);

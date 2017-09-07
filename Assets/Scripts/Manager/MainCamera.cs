@@ -2,32 +2,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainCamera : MonoBehaviour {
+[RequireComponent(typeof(Camera))]
+public class MainCamera : MonoBehaviour
+{
 
-    public GameObject player;
+    public Transform target;
 
-    public float offsetX = 0f;
-    public float offsetY = 25f;
-    public float followSpeed = 10f;
+    new private Camera camera;
+    private LimitArea limitArea;
+    private float fixedZAxis;
 
-    Vector3 cameraPosition;
+    public float followSpeed;
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Start()
+    {
+        SetupLimitArea();
+        fixedZAxis = transform.position.z;
+    }
 
-    void LateUpdate(){
-        cameraPosition.x = player.transform.position.x + offsetX;
-        cameraPosition.y = player.transform.position.y + offsetY;
-        cameraPosition.z = -10f;
+    void LateUpdate()
+    {
+        Vector3 position = limitArea.Clamp(Vector3.Lerp(transform.position, target.position, followSpeed * Time.deltaTime));
+        //Vector3 position = limitArea.Clamp(target.position);
+        position.z = fixedZAxis;
 
-        transform.position = Vector3.Lerp(transform.position, cameraPosition, followSpeed * Time.deltaTime);
-        //transform.position = cameraPosition;
+        transform.position = position;
+    }
+
+    private void SetupLimitArea()
+    {
+        camera = GetComponent<Camera>();
+
+        if (!camera.orthographic)
+        {
+            Debug.LogError("Error: main camera is not orthographic.");
+            return;
+        }
+
+        float cameraHeight = camera.orthographicSize;
+        float cameraWidth = cameraHeight * camera.aspect;
+
+        limitArea = MapManager.LimitArea.AddMargin(cameraHeight, cameraWidth);
     }
 }
