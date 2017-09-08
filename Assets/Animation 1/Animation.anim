@@ -74,6 +74,7 @@ AnimationClip:
     m_Extent: {x: 0, y: 0, z: 0}
   m_ClipBindingConstant:
     genericBindings:
+<<<<<<< HEAD
     - serializedVersion: 2
       path: 0
       attribute: 1
@@ -83,9 +84,12 @@ AnimationClip:
       isPPtrCurve: 0
     - serializedVersion: 2
       path: 0
+=======
+    - path: 0
+>>>>>>> bf660c545ce13a9f5a3aacd14e83fba7fb83be82
       attribute: 4
       script: {fileID: 0}
-      typeID: 4
+      classID: 4
       customType: 14
       isPPtrCurve: 0
     pptrCurveMapping: []
@@ -312,6 +316,7 @@ AnimationClip:
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
+<<<<<<< HEAD
   m_Events:
   - time: 0
     functionName: 
@@ -320,3 +325,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+=======
+  m_IsEmpty: 0
+  m_Events: []
+>>>>>>> bf660c545ce13a9f5a3aacd14e83fba7fb83be82

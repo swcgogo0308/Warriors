@@ -16,7 +16,6 @@ public class PlayerMove : MonoBehaviour
 
     [Header ("Movement")]
     public float moveSpeed = 10.0f;
-    public float drag = 0.5f;
 
     [Header ("Joystick")]
     public Joystick joystick;
@@ -24,41 +23,31 @@ public class PlayerMove : MonoBehaviour
 	private LimitArea limitArea;
     private Vector3 MoveVector;
 
-    private Rigidbody2D thisRigidbody;
 
     void Start()
     {
         SetupLimitArea();
-        thisRigidbody = GetComponent<Rigidbody2D>();
-        thisRigidbody.drag = drag;
 
-        if(myWeapon == null)
+
+        if (myWeapon == null)
         {
             myWeapon = GameObject.FindGameObjectWithTag("Weapon").GetComponent<Weapon>();
 
         }
     }
 
-
-    private void FixedUpdate()
+    private void Update()
     {
         Move();
-    }
-
-    private void LateUpdate()
-    {
-        PoolInput();
 
         Ontouch();
-
     }
 
     private void Move()
-    { 
-        Vector3 movePos = transform.right * MoveVector.magnitude * moveSpeed * Time.fixedDeltaTime;
-        thisRigidbody.position = limitArea.Clamp(transform.position + movePos); //플레이어가 안움직임
+    {
+        MoveVector = joystick.GetInputVector();
 
-        //thisRigidbody.velocity = MoveVector * moveSpeed;  //여기는 잘 돌아감.
+        transform.position = limitArea.Clamp(transform.position + MoveVector * moveSpeed * Time.deltaTime);
     }
 
     private void Ontouch()
@@ -96,7 +85,7 @@ public class PlayerMove : MonoBehaviour
 
     private void PoolInput()
     {
-        MoveVector = joystick.GetInputVector();
+        
     }
 
 

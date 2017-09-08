@@ -570,7 +570,7 @@ MonoBehaviour:
   moveSpeed: 5
   rotateSpeed: 8
   range: 1.5
-  isRange: 0
+  isRange: 1
   myWeapon: {fileID: 219962176}
 --- !u!95 &645807852
 Animator:
@@ -738,9 +738,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarSlider: {fileID: 0}
   myWeapon: {fileID: 0}
-  limitPadding: 5
+  limitPadding: 3
   moveSpeed: 8
-  drag: 0.5
   joystick: {fileID: 774544835}
 --- !u!212 &774365416
 SpriteRenderer:
@@ -812,7 +811,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
@@ -837,9 +836,9 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 774365414}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 291498de013103a48950a5dfcdb2ad86, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1062,10 +1061,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 487f5313cf706384eaae968e0c9cf42b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 774365414}
-  offsetX: 0
-  offsetY: 0
-  followSpeed: 7
+  target: {fileID: 774365417}
+  followSpeed: 2
 --- !u!1 &928400300
 GameObject:
   m_ObjectHideFlags: 0
@@ -1931,7 +1928,7 @@ Transform:
   m_GameObject: {fileID: 1820742618}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 10}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalScale: {x: 5, y: 4, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3

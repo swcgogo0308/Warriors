@@ -19,13 +19,13 @@ public class Weapon : MonoBehaviour {
 	public bool _isBlocking;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         PolygonCollider2D myColider = GetComponent<PolygonCollider2D>();
         weaponAni = GetComponent<Animator>();
     }
-
-    // Update is called once per frame
-    void Update () {
+        // Update is called once per frame
+        void Update () {
 
 	}
 
@@ -65,9 +65,7 @@ public class Weapon : MonoBehaviour {
     {
 		if (_isAttacking) {
 
-			if (hit.tag == "Weapon") {
-				
-			}
+		
 		} else if (_isBlocking) {
 			
 		}
