@@ -28,12 +28,7 @@ public class PlayerMove : MonoBehaviour
     {
         SetupLimitArea();
 
-
-        if (myWeapon == null)
-        {
-            myWeapon = GameObject.FindGameObjectWithTag("Weapon").GetComponent<Weapon>();
-
-        }
+        StartCoroutine(GetWeapon());
     }
 
     private void Update()
@@ -41,6 +36,20 @@ public class PlayerMove : MonoBehaviour
         Move();
 
         Ontouch();
+    }
+
+    IEnumerator GetWeapon()
+    {
+        if (myWeapon == null)
+        {
+            myWeapon = GameObject.FindGameObjectWithTag("Weapon").GetComponent<Weapon>();
+            while (!myWeapon.transform.parent.CompareTag("Player"))
+            {
+                yield return null;
+                myWeapon = GameObject.FindGameObjectWithTag("Weapon").GetComponent<Weapon>();
+            }
+            
+        }
     }
 
     private void Move()
