@@ -83,12 +83,6 @@ public class PlayerMove : MonoBehaviour
         transform.eulerAngles = new Vector3(0, 0, angle + 180.0f);
     }
 
-    private void PoolInput()
-    {
-        
-    }
-
-
 	private void SetupLimitArea()
 	{
 		limitArea = MapManager.LimitArea.AddMargin(limitPadding);

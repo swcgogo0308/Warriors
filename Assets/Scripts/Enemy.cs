@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour {
     public Weapon myWeapon;
     // Use this for initialization
     void Start () {
+
         if (myWeapon == null)
         {
             myWeapon = GameObject.FindGameObjectWithTag("Weapon").GetComponent<Weapon>();
@@ -78,13 +79,9 @@ public class Enemy : MonoBehaviour {
 
             isRange = true;
 
-            if (isRange)
-                yield return new WaitForSeconds(2f);
-            else
-                continue;
-            Attack();
+            Invoke("Attack", 1f);
 
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(1f);
         }
     }
 

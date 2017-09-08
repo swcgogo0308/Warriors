@@ -533,6 +533,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 60248583127758162, guid: 51df7c13b4b84684a8c68d11015b4dab,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 51df7c13b4b84684a8c68d11015b4dab, type: 2}
   m_IsPrefabParent: 0
@@ -547,6 +552,7 @@ GameObject:
   - component: {fileID: 645807853}
   - component: {fileID: 645807852}
   - component: {fileID: 645807851}
+  - component: {fileID: 645807855}
   m_Layer: 0
   m_Name: Enermy
   m_TagString: Enermy
@@ -569,8 +575,8 @@ MonoBehaviour:
   rayTransform: {fileID: 1836602025}
   moveSpeed: 5
   rotateSpeed: 8
-  range: 1.5
-  isRange: 1
+  range: 2
+  isRange: 0
   myWeapon: {fileID: 219962176}
 --- !u!95 &645807852
 Animator:
@@ -639,6 +645,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &645807855
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 645807850}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.775
 --- !u!1 &665447905
 GameObject:
   m_ObjectHideFlags: 0
