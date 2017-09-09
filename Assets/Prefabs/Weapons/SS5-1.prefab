@@ -100,10 +100,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
-  damage: 0
+  playerHealth: {fileID: 0}
+  damage: 20
   attackDelay: 0
   isEpic: 0
   isSpeacial: 0
+  isFallen: 0
   weaponAni: {fileID: 95590904110311528}
   myColider: {fileID: 60789974117695588}
   _isAttacking: 0

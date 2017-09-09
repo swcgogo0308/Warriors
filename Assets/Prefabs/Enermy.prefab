@@ -20,12 +20,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4977191099251402}
   - component: {fileID: 212194781927150102}
-  - component: {fileID: 95686968567261616}
   - component: {fileID: 114471249796542632}
   - component: {fileID: 58933488460118548}
+  - component: {fileID: 95452780619740898}
   m_Layer: 0
   m_Name: Enermy
-  m_TagString: Enermy
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -66,7 +66,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1085815170426354}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4614753870928604}
@@ -87,7 +87,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.775
---- !u!95 &95686968567261616
+--- !u!95 &95452780619740898
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
@@ -117,10 +117,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
   rayTransform: {fileID: 4614753870928604}
+  anim: {fileID: 95452780619740898}
   moveSpeed: 5
   rotateSpeed: 8
   range: 2
   isRange: 0
+  health: 100
+  hitDelay: 1
   myWeapon: {fileID: 0}
 --- !u!212 &212194781927150102
 SpriteRenderer:

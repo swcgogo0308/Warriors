@@ -26,6 +26,8 @@ public class Weapon : MonoBehaviour {
 
     private Collider2D[] allCollider;
 
+    private Enemy[] enemysObject;
+
     public bool _isAttacking;
 
 	public bool _isBlocking;
@@ -72,7 +74,7 @@ public class Weapon : MonoBehaviour {
             yield return null;
             if (transform.parent.CompareTag("Player"))
                 owner = Owner.Player;
-            else if (transform.parent.CompareTag("Enermy"))
+            else if (transform.parent.CompareTag("Enemy"))
                 owner = Owner.Enermy;
         }
     }
@@ -109,17 +111,36 @@ public class Weapon : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D hit)
     {
+        if (isFallen) return;
+
         if (_isAttacking) {
             Physics2D.IgnoreCollision(myColider, hit, true);
 
             if (owner == Owner.Enermy && hit.CompareTag("Player"))
                 playerHealth.TakeDamage(damage);
-            else if (owner == Owner.Player && hit.CompareTag("Enermy"))
-                Debug.Log("Player is hit on Enermy");
+            else if (owner == Owner.Player && hit.CompareTag("Enemy"))
+                StartCoroutine(CheackEnemyCount(hit));
         } else if (_isBlocking) {
 			
 		}
-        
+    }
+
+    IEnumerator CheackEnemyCount(Collider2D hit)
+    {
+        int i = 0;
+        while (true)
+        {
+            yield return null;
+            enemysObject = FindObjectsOfType<Enemy>();
+
+            if (enemysObject[i].transform == hit.transform)
+            {
+                enemysObject[i].TakeDamage(damage);
+                yield break;
+            }
+
+            i++;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D hit)

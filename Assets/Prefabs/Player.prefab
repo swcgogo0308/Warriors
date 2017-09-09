@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 50613550855969634}
   - component: {fileID: 95316326321103320}
   - component: {fileID: 58084820249651230}
+  - component: {fileID: 114542133577219628}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -115,7 +116,7 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1395734559571118}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 291498de013103a48950a5dfcdb2ad86, type: 2}
   m_CullingMode: 0
@@ -125,6 +126,27 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114542133577219628
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1395734559571118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1434f5c9ae816b44f8444a2b1c5f2b70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBar: {fileID: 0}
+  anim: {fileID: 95316326321103320}
+  playerMovement: {fileID: 114943595575024868}
+  damageImage: {fileID: 0}
+  myWeapon: {fileID: 0}
+  flashSpeed: 5
+  flashColor: {r: 1, g: 0, b: 0, a: 0.1}
+  hitDelay: 1
+  maxHealth: 100
+  isDead: 0
 --- !u!114 &114943595575024868
 MonoBehaviour:
   m_ObjectHideFlags: 1

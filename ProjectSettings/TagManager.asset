@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Weapon
   - Enermy
+  - Enemy
   layers:
   - Default
   - TransparentFX

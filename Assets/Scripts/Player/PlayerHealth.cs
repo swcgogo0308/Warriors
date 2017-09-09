@@ -26,7 +26,7 @@ public class PlayerHealth : MonoBehaviour {
     private int currentHealth;
 
     bool isDamage;
-    bool isDead;
+    public bool isDead;
     bool isHitDelay;
 
 	void Start () {
