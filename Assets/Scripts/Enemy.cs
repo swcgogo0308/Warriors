@@ -25,9 +25,10 @@ public class Enemy : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        if (myWeapon == null)
+        foreach (Transform child in transform)
         {
-            myWeapon = GameObject.FindGameObjectWithTag("Weapon").GetComponent<Weapon>();
+            if (child.CompareTag("Weapon"))
+                myWeapon = child.GetComponent<Weapon>();
         }
 
         StartCoroutine(CheckFoward());

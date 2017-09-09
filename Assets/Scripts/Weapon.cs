@@ -11,11 +11,14 @@ public class Weapon : MonoBehaviour {
     int i = 0;
     public Owner owner;
 
+    public PlayerHealth playerHealth;
+
     public int damage;
 	public float attackDelay;
 
     public bool isEpic;
     public bool isSpeacial;
+    public bool isFallen;
 
     public Animator weaponAni;
 
@@ -27,19 +30,29 @@ public class Weapon : MonoBehaviour {
 
 	public bool _isBlocking;
 
+
     // Use this for initialization
     void Start()
     {
         allCollider = FindObjectsOfType<Collider2D>();
         PolygonCollider2D myColider = GetComponent<PolygonCollider2D>();
         weaponAni = GetComponent<Animator>();
+        StartCoroutine(CheackFallen());
         StartCoroutine(ReloadAllCollider());
+        if (isFallen) return;
         StartCoroutine(CheackOwner());
 
     }
         // Update is called once per frame
     void Update () {
         
+    }
+
+    IEnumerator CheackFallen()
+    {
+        if (transform.parent == null)
+            isFallen = true;
+        yield return null;
     }
 
     IEnumerator ReloadAllCollider()
@@ -100,7 +113,7 @@ public class Weapon : MonoBehaviour {
             Physics2D.IgnoreCollision(myColider, hit, true);
 
             if (owner == Owner.Enermy && hit.CompareTag("Player"))
-                Debug.Log("Enermy is hit on Player");
+                playerHealth.TakeDamage(damage);
             else if (owner == Owner.Player && hit.CompareTag("Enermy"))
                 Debug.Log("Player is hit on Enermy");
         } else if (_isBlocking) {
