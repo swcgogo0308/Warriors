@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Weapon : MonoBehaviour {
 
@@ -13,6 +15,10 @@ public class Weapon : MonoBehaviour {
 
     public PlayerHealth playerHealth;
 
+    public Button getButton;
+
+    public Text getButtonText;
+
     public int damage;
 	public float attackDelay;
 
@@ -20,6 +26,7 @@ public class Weapon : MonoBehaviour {
     public bool isSpeacial;
     private bool isFallen;
     private bool isTakeDamage;
+    private bool isOnButton;
 
 
     public Animator weaponAni;
@@ -51,6 +58,14 @@ public class Weapon : MonoBehaviour {
         
     }
 
+    void GetWeapon()
+    {
+        if (isOnButton)
+        {
+            transform.parent = playerHealth.transform;
+        }
+    }
+
     IEnumerator CheackFallen()
     {        
         while(true)
@@ -58,10 +73,10 @@ public class Weapon : MonoBehaviour {
             yield return null;
             if (owner == Owner.Fallen)
             {
+                getButton.onClick.AddListener(() => GetWeapon());
                 yield return DestoryCount();
             }
         }
-        
     }
 
     IEnumerator DestoryCount()
@@ -72,7 +87,8 @@ public class Weapon : MonoBehaviour {
 
         yield return new WaitForSeconds(5f);
 
-        Destroy(gameObject);
+        if(owner == Owner.Fallen)
+            Destroy(gameObject);
 
     }
 
@@ -144,9 +160,18 @@ public class Weapon : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D hit)
     {
-        if (isFallen) return;
+        if (isFallen)
+        {
+            Physics2D.IgnoreCollision(myColider, hit, true);
 
-        if (_isAttacking) {
+            if (hit.CompareTag("Player"))
+            {
+                isOnButton = true;
+            }
+
+        }
+        else if (_isAttacking)
+        {
             Physics2D.IgnoreCollision(myColider, hit, true);
 
             if (isTakeDamage) return;
@@ -192,8 +217,24 @@ public class Weapon : MonoBehaviour {
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(isFallen)
+        {
+        }
+    }
+
     private void OnTriggerExit2D(Collider2D hit)
     {
+        isOnButton = false;
+
+        if (isFallen)
+        {
+            getButtonText.text = "False";
+        }
+
         Physics2D.IgnoreCollision(myColider, hit, false);
+
+        
     }
 }

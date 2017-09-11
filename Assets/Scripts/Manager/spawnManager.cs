@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SpawnManager : MonoBehaviour {
 
@@ -111,6 +112,8 @@ public class SpawnManager : MonoBehaviour {
             weaponObject.transform.parent = enemyObject.transform;
 
             weaponObject.playerHealth = playerHealth;
+
+            weaponObject.getButton = FindObjectOfType<Button>();
 
             enemyObject.SetStrength(0 + round);
         }
