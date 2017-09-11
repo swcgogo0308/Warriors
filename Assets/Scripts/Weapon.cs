@@ -6,9 +6,9 @@ public class Weapon : MonoBehaviour {
 
     public enum Owner{
         Player,
-        Enermy
+        Enermy,
+        Fallen
     }
-    int i = 0;
     public Owner owner;
 
     public PlayerHealth playerHealth;
@@ -18,7 +18,9 @@ public class Weapon : MonoBehaviour {
 
     public bool isEpic;
     public bool isSpeacial;
-    public bool isFallen;
+    private bool isFallen;
+    private bool isTakeDamage;
+
 
     public Animator weaponAni;
 
@@ -36,14 +38,13 @@ public class Weapon : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        playerHealth = GameObject.FindObjectOfType<PlayerHealth>();
         allCollider = FindObjectsOfType<Collider2D>();
         PolygonCollider2D myColider = GetComponent<PolygonCollider2D>();
         weaponAni = GetComponent<Animator>();
+        StartCoroutine(CheackOwner());
         StartCoroutine(CheackFallen());
         StartCoroutine(ReloadAllCollider());
-        if (isFallen) return;
-        StartCoroutine(CheackOwner());
-
     }
         // Update is called once per frame
     void Update () {
@@ -51,14 +52,35 @@ public class Weapon : MonoBehaviour {
     }
 
     IEnumerator CheackFallen()
-    {
-        if (transform.parent == null)
-            isFallen = true;
-        yield return null;
+    {        
+        while(true)
+        {
+            yield return null;
+            if (owner == Owner.Fallen)
+            {
+                yield return DestoryCount();
+            }
+        }
+        
     }
+
+    IEnumerator DestoryCount()
+    {
+        if (isFallen) yield break;
+
+        isFallen = true;
+
+        yield return new WaitForSeconds(5f);
+
+        Destroy(gameObject);
+
+    }
+
+    
 
     IEnumerator ReloadAllCollider()
     {
+        int i = 0;
         while (i < allCollider.Length)
         {
             yield return null;
@@ -72,16 +94,20 @@ public class Weapon : MonoBehaviour {
         while(true)
         {
             yield return null;
+
             if (transform.parent.CompareTag("Player"))
                 owner = Owner.Player;
             else if (transform.parent.CompareTag("Enemy"))
                 owner = Owner.Enermy;
+            else if (transform.parent.CompareTag("Fallen"))
+                owner = Owner.Fallen;
         }
+        
     }
 
-    public void Attack()
+    public void Attack(bool isDead)
     {
-        StartCoroutine(Attacking());
+        StartCoroutine(Attacking(isDead));
     }
 
 	public void Shild(bool touchDown)
@@ -91,20 +117,27 @@ public class Weapon : MonoBehaviour {
         //TODO Guard
     }
 
-    IEnumerator Attacking()
+    IEnumerator Attacking(bool isDead)
     {
+        if (_isAttacking) yield break;
+
         _isAttacking = true;
+
+        yield return new WaitForSeconds(attackDelay);
+
+        if (isDead) yield break;
+
         weaponAni.SetBool("isAttacking", true);
         yield return new WaitForSeconds(1f);
         weaponAni.SetBool("isAttacking", false);
-        yield return new WaitForSeconds(attackDelay);
-
         _isAttacking = false;
     }
 
 	IEnumerator Blocking(bool touchDown)
 	{
-		weaponAni.SetBool ("isBlocking", touchDown);
+        if (_isAttacking) yield break;
+
+        weaponAni.SetBool ("isBlocking", touchDown);
 
 		yield return new WaitForSeconds (0.000001f);
 	}
@@ -116,13 +149,27 @@ public class Weapon : MonoBehaviour {
         if (_isAttacking) {
             Physics2D.IgnoreCollision(myColider, hit, true);
 
+            if (isTakeDamage) return;
+
             if (owner == Owner.Enermy && hit.CompareTag("Player"))
+            {
                 playerHealth.TakeDamage(damage);
+                StartCoroutine(DamageDelay());
+            }
             else if (owner == Owner.Player && hit.CompareTag("Enemy"))
+            {
                 StartCoroutine(CheackEnemyCount(hit));
+            }
         } else if (_isBlocking) {
 			
 		}
+    }
+
+    IEnumerator DamageDelay()
+    {
+        isTakeDamage = true;
+        yield return new WaitForSeconds(1f);
+        isTakeDamage = false;
     }
 
     IEnumerator CheackEnemyCount(Collider2D hit)
@@ -130,14 +177,16 @@ public class Weapon : MonoBehaviour {
         int i = 0;
         while (true)
         {
-            yield return null;
             enemysObject = FindObjectsOfType<Enemy>();
 
             if (enemysObject[i].transform == hit.transform)
             {
                 enemysObject[i].TakeDamage(damage);
+                yield return DamageDelay();
                 yield break;
             }
+            else if (enemysObject.Length <= 0)
+                yield return null;
 
             i++;
         }

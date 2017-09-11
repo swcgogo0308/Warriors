@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour {
 
     Vector3 direction;
 
+    public int WeaponFallenProbabile;
+
     public float moveSpeed;
 
     public float rotateSpeed;
@@ -20,23 +22,29 @@ public class Enemy : MonoBehaviour {
 
     public bool isRange;
 
-    public int health;
+    public int max_health;
 
-    public float hitDelay;
+    private int health;
 
     private int currentHealth;
 
-    bool isHitDelay;
-
     bool isAttack;
 
-    bool isDead;
+    public bool isDead;
 
     [Header("Weapon")]
     public Weapon myWeapon;
     // Use this for initialization
-    void Start () {      
 
+    private void Awake()
+    {
+    }
+
+    void Start () {
+
+        currentHealth = max_health;
+
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         foreach (Transform child in transform)
         {
             if (child.CompareTag("Weapon"))
@@ -93,7 +101,7 @@ public class Enemy : MonoBehaviour {
 
             isRange = true;
 
-            Invoke("Attack", 1f);
+            Attack();
 
             yield return new WaitForSeconds(1f);
         }
@@ -105,15 +113,12 @@ public class Enemy : MonoBehaviour {
 
         Rotate(true);
 
-        myWeapon.Attack();
+        myWeapon.Attack(isDead);
     }
 
     public void TakeDamage(int damage)
     {
-        if (isHitDelay) return;
-        StartCoroutine(HitDelay());
         currentHealth -= damage;
-        health = currentHealth;
 
         if (currentHealth <= 0 && !isDead)
         {
@@ -123,15 +128,7 @@ public class Enemy : MonoBehaviour {
 
     public void SetStrength(float strength)
     {
-        health = (int)strength + health;
-    }
-
-    IEnumerator HitDelay()
-    {
-        if (isHitDelay) yield break;
-        isHitDelay = true;
-        yield return new WaitForSeconds(hitDelay);
-        isHitDelay = false;
+        currentHealth = (int)strength * 10 + currentHealth;
     }
 
     void Death()
@@ -143,9 +140,18 @@ public class Enemy : MonoBehaviour {
     IEnumerator DeathEffect()
     {
         anim.SetBool("isDead", true);
+
+
         yield return new WaitForSeconds(1.5f);
-        Weapon fallenWeapon = Instantiate(myWeapon);
-        fallenWeapon.transform.position = transform.position;
-        gameObject.SetActive(false);
+
+        if (Random.Range(1, 100) <= WeaponFallenProbabile)
+        {
+            Transform fallenWeaponStorage = GameObject.FindGameObjectWithTag("Fallen").transform;
+            fallenWeaponStorage.position = this.transform.position;
+
+            myWeapon.gameObject.transform.parent = fallenWeaponStorage;
+        }
+
+        Destroy(gameObject);
     }
 }
