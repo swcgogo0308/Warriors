@@ -5,7 +5,7 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Sword
+  m_Name: Axe
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: isAttacking
@@ -46,9 +46,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.75
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -214,7 +214,7 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 8a570e7dfa011a345b8d2cb2f3cbfebf, type: 2}
+  m_Motion: {fileID: 7400000, guid: 73f6561b9914e9e4aa01a4ad2a541696, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -238,7 +238,7 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: feac81444736b404f8d237095e85c57f, type: 2}
+  m_Motion: {fileID: 7400000, guid: f8e98e10c90b4d84dbc9d46134bdbb06, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -262,7 +262,7 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: cbcd171d83c4e4145bddf9a62bd69d2e, type: 2}
+  m_Motion: {fileID: 7400000, guid: 8c933dd235d396a47bea1b5231d68a26, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -287,7 +287,7 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: cd1446c1b0f598f4eb1818d9fb3bb02b, type: 2}
+  m_Motion: {fileID: 7400000, guid: b7711852241b8004aaf34264eccb6017, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

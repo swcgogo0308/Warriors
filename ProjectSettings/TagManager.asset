@@ -5,8 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Weapon
-  - Enermy
   - Enemy
+  - Fallen
   layers:
   - Default
   - TransparentFX

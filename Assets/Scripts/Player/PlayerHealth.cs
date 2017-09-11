@@ -64,8 +64,6 @@ public class PlayerHealth : MonoBehaviour {
 
     public void TakeDamage(int damage)
     {
-        if (isHitDelay) return;
-        StartCoroutine(HitDelay());
         isDamage = true;
         currentHealth -= damage;
         HealthBar.value = currentHealth;
@@ -76,13 +74,6 @@ public class PlayerHealth : MonoBehaviour {
         }
     }
 
-    IEnumerator HitDelay()
-    {
-        if (isHitDelay) yield break;
-        isHitDelay = true;
-        yield return new WaitForSeconds(hitDelay);
-        isHitDelay = false;
-    }
 
     void Death()
     {
@@ -96,7 +87,10 @@ public class PlayerHealth : MonoBehaviour {
     {
         anim.SetBool("isDead", true);
         yield return new WaitForSeconds(1.5f);
-        Instantiate(myWeapon);
+        Transform fallenWeaponStorage = GameObject.FindGameObjectWithTag("Fallen").transform;
+        fallenWeaponStorage.position = this.transform.position;
+
+        myWeapon.gameObject.transform.parent = fallenWeaponStorage;
         gameObject.SetActive(false);
     }
 }

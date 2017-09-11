@@ -159,6 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBarSlider: {fileID: 0}
+  playerHealth: {fileID: 0}
   myWeapon: {fileID: 0}
   limitPadding: 3
   moveSpeed: 8
@@ -228,7 +229,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 369f3f0c7e0b1174d8eb7c7a6876c965, type: 3}
   m_Color: {r: 0.63170415, g: 0.9088205, b: 0.9338235, a: 1}
   m_FlipX: 0

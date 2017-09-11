@@ -30,6 +30,8 @@ public class SpawnManager : MonoBehaviour {
     private Transform enemyStorage;
 
     void Start () {
+        Transform fallenWeaponStorage = new GameObject("FallenStorage").transform;
+        fallenWeaponStorage.tag = "Fallen";
         enemyStorage = new GameObject("EnemyStorage").transform;
 
         StartCoroutine(StartGame());
@@ -56,15 +58,16 @@ public class SpawnManager : MonoBehaviour {
                 for(int i = 0; i < enemyScripts.Length; i++)
                     enemyScripts[i].enabled = false;
 
-                StopAllCoroutines();
-                SceneManager.LoadScene("Main");
+                yield return new WaitForSeconds(3f);
+                break;
             }
         }
+        SceneManager.LoadScene("Main");
     }
 
     private IEnumerator StartGame()
     {
-        float i = 0.2f;
+        float i = 0f;
         while (true)
         {
             roundState = State.Spawning;
@@ -76,16 +79,21 @@ public class SpawnManager : MonoBehaviour {
                 yield return null;
             }
 
-            i+=i;
+            i += 0.1f;
         }
     }
 
     IEnumerator EnemySpawn(float round)
     {
-        WaitForSeconds spawnDelay = new WaitForSeconds(5 + round);
+        WaitForSeconds spawnDelay = new WaitForSeconds(0.5f);
 
-        for (int count = 0; count < 5 + (int)round; count++)
+        int spawnMonsterCount = 1 + (int)round;
+
+        if (spawnMonsterCount >= 3) spawnMonsterCount = 5;
+
+        for (int count = 0; count < spawnMonsterCount; count++)
         {
+
             yield return spawnDelay;
             int randomMonb = Random.Range(0, enemys.Length);
             int randomWeapon = Random.Range(0, weapons.Length);
@@ -103,9 +111,6 @@ public class SpawnManager : MonoBehaviour {
             weaponObject.transform.parent = enemyObject.transform;
 
             weaponObject.playerHealth = playerHealth;
-            
-
-            enemy.playerTransform = player;
 
             enemyObject.SetStrength(0 + round);
         }

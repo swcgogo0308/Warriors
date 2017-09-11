@@ -8,6 +8,8 @@ public class PlayerMove : MonoBehaviour
 {
     public Slider healthBarSlider;
 
+    public PlayerHealth playerHealth;
+
     [Header ("Weapon")]
     public Weapon myWeapon;
 
@@ -26,6 +28,8 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+
         SetupLimitArea();
 
         foreach(Transform child in transform)
@@ -56,7 +60,7 @@ public class PlayerMove : MonoBehaviour
 
 		if (Input.GetMouseButtonDown (0) && !myWeapon._isAttacking) {
 			Rotate ();
-			myWeapon.Attack ();
+			myWeapon.Attack (playerHealth.isDead);
 		}
 
 		else if (Input.GetMouseButton(0)) {
