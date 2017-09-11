@@ -88,9 +88,9 @@ public class SpawnManager : MonoBehaviour {
     {
         WaitForSeconds spawnDelay = new WaitForSeconds(0.5f);
 
-        int spawnMonsterCount = 3 + (int)round;
+        int spawnMonsterCount = 1 + (int)round;
 
-        if (spawnMonsterCount >= 5) spawnMonsterCount = 5;
+        if (spawnMonsterCount >= 3) spawnMonsterCount = 5;
 
         for (int count = 0; count < spawnMonsterCount; count++)
         {

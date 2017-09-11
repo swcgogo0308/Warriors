@@ -41,6 +41,9 @@ public class Weapon : MonoBehaviour {
 
 	public bool _isBlocking;
 
+	bool _isAttackAni;
+
+
 
     // Use this for initialization
     void Start()
@@ -137,12 +140,11 @@ public class Weapon : MonoBehaviour {
     {
         if (_isAttacking) yield break;
 
-        _isAttacking = true;
-
-        yield return new WaitForSeconds(attackDelay);
+        //yield return new WaitForSeconds(attackDelay);
 
         if (isDead) yield break;
 
+		_isAttacking = true;
         weaponAni.SetBool("isAttacking", true);
         yield return new WaitForSeconds(1f);
         weaponAni.SetBool("isAttacking", false);

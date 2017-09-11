@@ -101,7 +101,7 @@ public class Enemy : MonoBehaviour {
 
             isRange = true;
 
-            Attack();
+			Invoke("Attack", myWeapon.attackDelay);
 
             yield return new WaitForSeconds(1f);
         }
