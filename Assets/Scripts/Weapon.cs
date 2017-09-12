@@ -11,7 +11,16 @@ public class Weapon : MonoBehaviour {
         Enermy,
         Fallen
     }
+
+    public enum Grade
+    {
+        Normal,
+        Epic,
+        Speacial
+    }
     public Owner owner;
+
+    public Grade weaponGrade = Grade.Normal;
 
     public PlayerHealth playerHealth;
 
@@ -137,11 +146,9 @@ public class Weapon : MonoBehaviour {
     {
         if (_isAttacking) yield break;
 
-        _isAttacking = true;
-
-        yield return new WaitForSeconds(attackDelay);
-
         if (isDead) yield break;
+
+        _isAttacking = true;
 
         weaponAni.SetBool("isAttacking", true);
         yield return new WaitForSeconds(1f);

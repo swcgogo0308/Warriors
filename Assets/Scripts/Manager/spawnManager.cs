@@ -30,6 +30,8 @@ public class SpawnManager : MonoBehaviour {
 
     private Transform enemyStorage;
 
+    public Text roundText;
+
     void Start () {
         Transform fallenWeaponStorage = new GameObject("FallenStorage").transform;
         fallenWeaponStorage.tag = "Fallen";
@@ -68,19 +70,39 @@ public class SpawnManager : MonoBehaviour {
 
     private IEnumerator StartGame()
     {
-        float i = 0f;
+        float round = 0f;
+
+        Text[] texts = FindObjectsOfType<Text>();
+
+        int i = 0;
+
+        while(true)
+        {
+            if(texts[i].name == "RoundText")
+            {
+                roundText = texts[i];
+                break;
+            }
+
+            if(i == texts.Length)
+            {
+                break; 
+            }
+        }
+
         while (true)
         {
+            roundText.text = "Round : " + round;
             roundState = State.Spawning;
 
-            yield return EnemySpawn(i);
+            yield return EnemySpawn(round);
 
             while (roundState == State.Spawning)
             {
                 yield return null;
             }
 
-            i += 0.1f;
+            round += 1f;
         }
     }
 
@@ -88,9 +110,9 @@ public class SpawnManager : MonoBehaviour {
     {
         WaitForSeconds spawnDelay = new WaitForSeconds(0.5f);
 
-        int spawnMonsterCount = 3 + (int)round;
+        int spawnMonsterCount = 1 + (int)(round * 0.2f);
 
-        if (spawnMonsterCount >= 5) spawnMonsterCount = 5;
+        if (spawnMonsterCount >= 4) spawnMonsterCount = 4;
 
         for (int count = 0; count < spawnMonsterCount; count++)
         {
@@ -102,20 +124,67 @@ public class SpawnManager : MonoBehaviour {
             Enemy enemy = enemys[randomMonb];
             Weapon weapon = weapons[randomWeapon];
 
-            Enemy enemyObject = Instantiate(enemy.gameObject).GetComponent<Enemy>();
-            Weapon weaponObject = Instantiate(weapon.gameObject).GetComponent<Weapon>();
+            if (round < 5)
+            {
 
-            enemyObject.transform.position = GetRandomSpawnPoint();
-            enemyObject.transform.SetParent(enemyStorage);
+                while (weapon.weaponGrade != Weapon.Grade.Normal)
+                {
+                    randomWeapon = Random.Range(0, weapons.Length);
+                    weapon = weapons[randomWeapon];
+                }
 
 
-            weaponObject.transform.parent = enemyObject.transform;
+                Enemy enemyObject = Instantiate(enemy.gameObject).GetComponent<Enemy>();
+                Weapon weaponObject = Instantiate(weapon.gameObject).GetComponent<Weapon>();
 
-            weaponObject.playerHealth = playerHealth;
+                enemyObject.transform.position = GetRandomSpawnPoint();
+                enemyObject.transform.SetParent(enemyStorage);
 
-            weaponObject.getButton = FindObjectOfType<Button>();
 
-            enemyObject.SetStrength(0 + round);
+                weaponObject.transform.parent = enemyObject.transform;
+
+                weaponObject.playerHealth = playerHealth;
+
+                weaponObject.getButton = FindObjectOfType<Button>();
+
+                enemyObject.SetStrength(0 + round);
+            }
+
+            else if(round >= 10)
+            {
+                if (count < spawnMonsterCount - 1)
+                {
+                    while (weapon.weaponGrade != Weapon.Grade.Normal)
+                    {
+                        randomWeapon = Random.Range(0, weapons.Length);
+                        weapon = weapons[randomWeapon];
+                    }
+                }
+                else if (count == spawnMonsterCount - 1)
+                {
+                    while (weapon.weaponGrade != Weapon.Grade.Epic)
+                    {
+                        randomWeapon = Random.Range(0, weapons.Length);
+                        weapon = weapons[randomWeapon];
+                    }
+                }
+
+                Enemy enemyObject = Instantiate(enemy.gameObject).GetComponent<Enemy>();
+                Weapon weaponObject = Instantiate(weapon.gameObject).GetComponent<Weapon>();
+
+                enemyObject.transform.position = GetRandomSpawnPoint();
+                enemyObject.transform.SetParent(enemyStorage);
+
+
+                weaponObject.transform.parent = enemyObject.transform;
+
+                weaponObject.playerHealth = playerHealth;
+
+                weaponObject.getButton = FindObjectOfType<Button>();
+
+                enemyObject.SetStrength(0 + round);
+            }
+
         }
 
         yield return CheackEnemyCount();

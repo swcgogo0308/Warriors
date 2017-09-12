@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour {
 
     Vector3 direction;
 
-    public int WeaponFallenProbabile;
+    public int weaponFallenProbabile;
 
     public float moveSpeed;
 
@@ -49,6 +49,19 @@ public class Enemy : MonoBehaviour {
         {
             if (child.CompareTag("Weapon"))
                 myWeapon = child.GetComponent<Weapon>();
+        }
+
+        switch(myWeapon.weaponGrade)
+        {
+            case Weapon.Grade.Normal :
+                weaponFallenProbabile = 60;
+                break;
+            case Weapon.Grade.Epic :
+                weaponFallenProbabile = 30;
+                break;
+            case Weapon.Grade.Speacial:
+                weaponFallenProbabile = 10;
+                break;
         }
 
         StartCoroutine(CheckFoward());
@@ -101,7 +114,7 @@ public class Enemy : MonoBehaviour {
 
             isRange = true;
 
-            Attack();
+            Invoke("Attack", myWeapon.attackDelay);
 
             yield return new WaitForSeconds(1f);
         }
@@ -144,7 +157,7 @@ public class Enemy : MonoBehaviour {
 
         yield return new WaitForSeconds(1.5f);
 
-        if (Random.Range(1, 100) <= WeaponFallenProbabile)
+        if (Random.Range(1, 100) <= weaponFallenProbabile)
         {
             Transform fallenWeaponStorage = GameObject.FindGameObjectWithTag("Fallen").transform;
             fallenWeaponStorage.position = this.transform.position;
