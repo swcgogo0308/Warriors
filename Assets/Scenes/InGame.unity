@@ -303,6 +303,9 @@ CanvasRenderer:
   m_GameObject: {fileID: 297445041}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of b443a3b... AttackAnimation Patch
 =======
 >>>>>>> parent of b443a3b... AttackAnimation Patch
 --- !u!1001 &397191091
@@ -314,7 +317,10 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4704207179924052, guid: 12fd56b8d6b74a94f9d8a18e0e27063c, type: 2}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of b443a3b... AttackAnimation Patch
       propertyPath: m_LocalPosition.x
       value: 3
       objectReference: {fileID: 0}
@@ -343,6 +349,9 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4704207179924052, guid: 12fd56b8d6b74a94f9d8a18e0e27063c, type: 2}
+<<<<<<< HEAD
+>>>>>>> parent of b443a3b... AttackAnimation Patch
+=======
 >>>>>>> parent of b443a3b... AttackAnimation Patch
       propertyPath: m_RootOrder
       value: 1
@@ -356,8 +365,11 @@ Prefab:
   m_ParentPrefab: {fileID: 100100000, guid: 12fd56b8d6b74a94f9d8a18e0e27063c, type: 2}
   m_IsPrefabParent: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> origin/master
+=======
+>>>>>>> parent of b443a3b... AttackAnimation Patch
 =======
 >>>>>>> parent of b443a3b... AttackAnimation Patch
 --- !u!1 &425406662
@@ -444,11 +456,14 @@ Prefab:
       propertyPath: damageImage
       value: 
       objectReference: {fileID: 2058615624}
+<<<<<<< HEAD
     - target: {fileID: 58084820249651230, guid: 097de7a3a14c969408c17fa613e523dd,
         type: 2}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+=======
+>>>>>>> parent of b443a3b... AttackAnimation Patch
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 097de7a3a14c969408c17fa613e523dd, type: 2}
   m_IsPrefabParent: 0
