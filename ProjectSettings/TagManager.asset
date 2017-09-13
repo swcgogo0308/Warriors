@@ -7,6 +7,7 @@ TagManager:
   - Weapon
   - Enemy
   - Fallen
+  - FallenStorage
   layers:
   - Default
   - TransparentFX

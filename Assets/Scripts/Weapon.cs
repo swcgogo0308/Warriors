@@ -51,6 +51,7 @@ public class Weapon : MonoBehaviour {
 	public bool _isBlocking;
 
 
+
     // Use this for initialization
     void Start()
     {
@@ -181,16 +182,27 @@ public class Weapon : MonoBehaviour {
         {
             Physics2D.IgnoreCollision(myColider, hit, true);
 
-            if (isTakeDamage) return;
-
             if (owner == Owner.Enermy && hit.CompareTag("Player"))
             {
+                if (isTakeDamage) return;
                 playerHealth.TakeDamage(damage);
                 StartCoroutine(DamageDelay());
             }
             else if (owner == Owner.Player && hit.CompareTag("Enemy"))
             {
-                StartCoroutine(CheackEnemyCount(hit));
+                enemysObject = FindObjectsOfType<Enemy>();
+
+                for (int i = 0; i < enemysObject.Length; i ++)
+                {
+
+                    if (enemysObject[i].transform == hit.transform && !enemysObject[i].isOnDamage)
+                    {
+                        StartCoroutine(CheackEnemyCount(hit));
+                        break;
+                    }
+                }
+
+                
             }
         } else if (_isBlocking) {
 			
@@ -204,6 +216,18 @@ public class Weapon : MonoBehaviour {
         isTakeDamage = false;
     }
 
+
+    IEnumerator DamageDelay(Enemy enemy)
+    {
+        if (enemy.isOnDamage) yield break;
+
+        enemy.isOnDamage = true;
+        isTakeDamage = true;
+        yield return new WaitForSeconds(1f);
+        isTakeDamage = false;
+        enemy.isOnDamage = false;
+    }
+
     IEnumerator CheackEnemyCount(Collider2D hit)
     {
         int i = 0;
@@ -214,7 +238,7 @@ public class Weapon : MonoBehaviour {
             if (enemysObject[i].transform == hit.transform)
             {
                 enemysObject[i].TakeDamage(damage);
-                yield return DamageDelay();
+                yield return DamageDelay(enemysObject[i]);
                 yield break;
             }
             else if (enemysObject.Length <= 0)

@@ -32,6 +32,8 @@ public class Enemy : MonoBehaviour {
 
     public bool isDead;
 
+    public bool isOnDamage;
+
     [Header("Weapon")]
     public Weapon myWeapon;
     // Use this for initialization
