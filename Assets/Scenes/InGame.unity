@@ -444,6 +444,21 @@ Prefab:
       propertyPath: damageImage
       value: 
       objectReference: {fileID: 2058615624}
+    - target: {fileID: 58084820249651230, guid: 097de7a3a14c969408c17fa613e523dd,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 58084820249651230, guid: 097de7a3a14c969408c17fa613e523dd,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114542133577219628, guid: 097de7a3a14c969408c17fa613e523dd,
+        type: 2}
+      propertyPath: maxHealth
+      value: 10000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 097de7a3a14c969408c17fa613e523dd, type: 2}
   m_IsPrefabParent: 0

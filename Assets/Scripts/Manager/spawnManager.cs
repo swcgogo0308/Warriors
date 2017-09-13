@@ -33,8 +33,8 @@ public class SpawnManager : MonoBehaviour {
     public Text roundText;
 
     void Start () {
-        Transform fallenWeaponStorage = new GameObject("FallenStorage").transform;
-        fallenWeaponStorage.tag = "Fallen";
+		Transform fallenWeaponStorage = new GameObject("FallenStorage").transform;
+		fallenWeaponStorage.tag = "FallenStorage";
         enemyStorage = new GameObject("EnemyStorage").transform;
 
         StartCoroutine(StartGame());
@@ -124,7 +124,7 @@ public class SpawnManager : MonoBehaviour {
             Enemy enemy = enemys[randomMonb];
             Weapon weapon = weapons[randomWeapon];
 
-            if (round < 5)
+            if (round < 10)
             {
 
                 while (weapon.weaponGrade != Weapon.Grade.Normal)

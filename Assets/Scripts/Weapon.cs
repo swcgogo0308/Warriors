@@ -82,7 +82,7 @@ public class Weapon : MonoBehaviour {
             yield return null;
             if (owner == Owner.Fallen)
             {
-                getButton.onClick.AddListener(() => GetWeapon());
+                //getButton.onClick.AddListener(() => GetWeapon());
                 yield return DestoryCount();
             }
         }
@@ -96,8 +96,8 @@ public class Weapon : MonoBehaviour {
 
         yield return new WaitForSeconds(5f);
 
-        if(owner == Owner.Fallen)
-            Destroy(gameObject);
+		if (owner == Owner.Fallen)
+			Destroy (transform.parent.gameObject);
 
     }
 
@@ -226,19 +226,19 @@ public class Weapon : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(isFallen)
+        /*if(isFallen)
         {
-        }
+        }*/
     }
 
     private void OnTriggerExit2D(Collider2D hit)
     {
         isOnButton = false;
 
-        if (isFallen)
+        /*if (isFallen)
         {
             getButtonText.text = "False";
-        }
+        }*/
 
         Physics2D.IgnoreCollision(myColider, hit, false);
 

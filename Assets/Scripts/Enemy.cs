@@ -155,14 +155,16 @@ public class Enemy : MonoBehaviour {
         anim.SetBool("isDead", true);
 
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.03f);
 
         if (Random.Range(1, 100) <= weaponFallenProbabile)
         {
-            Transform fallenWeaponStorage = GameObject.FindGameObjectWithTag("Fallen").transform;
-            fallenWeaponStorage.position = this.transform.position;
+			Transform fallenWeapon = new GameObject("FallenWeapon").transform;
+			fallenWeapon.parent = GameObject.FindGameObjectWithTag ("FallenStorage").transform;
+			fallenWeapon.tag = "Fallen";
+            fallenWeapon.position = this.transform.position;
 
-            myWeapon.gameObject.transform.parent = fallenWeaponStorage;
+            myWeapon.gameObject.transform.parent = fallenWeapon;
         }
 
         Destroy(gameObject);
