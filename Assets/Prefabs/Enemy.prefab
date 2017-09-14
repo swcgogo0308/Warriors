@@ -124,8 +124,9 @@ MonoBehaviour:
   rotateSpeed: 8
   range: 1.5
   isRange: 0
-  max_health: 60
+  max_health: 100
   isDead: 0
+  isOnDamage: 0
   myWeapon: {fileID: 0}
 --- !u!212 &212111226681083614
 SpriteRenderer:

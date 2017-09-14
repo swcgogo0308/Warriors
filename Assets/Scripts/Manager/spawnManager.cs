@@ -32,6 +32,8 @@ public class SpawnManager : MonoBehaviour {
 
     public Text roundText;
 
+    public int maxSpawnCount;
+
     void Start () {
 		Transform fallenWeaponStorage = new GameObject("FallenStorage").transform;
 		fallenWeaponStorage.tag = "FallenStorage";
@@ -61,10 +63,11 @@ public class SpawnManager : MonoBehaviour {
                 for(int i = 0; i < enemyScripts.Length; i++)
                     enemyScripts[i].enabled = false;
 
-                yield return new WaitForSeconds(3f);
+                yield return new WaitForSeconds(2f);
                 break;
             }
         }
+
         SceneManager.LoadScene("Main");
     }
 
@@ -110,9 +113,9 @@ public class SpawnManager : MonoBehaviour {
     {
         WaitForSeconds spawnDelay = new WaitForSeconds(0.5f);
 
-        int spawnMonsterCount = 1 + (int)(round * 0.2f);
+        int spawnMonsterCount = 1 + (int)(round * 0.1f);
 
-        if (spawnMonsterCount >= 4) spawnMonsterCount = 4;
+        if (spawnMonsterCount >= maxSpawnCount) spawnMonsterCount = maxSpawnCount;
 
         for (int count = 0; count < spawnMonsterCount; count++)
         {
@@ -124,33 +127,7 @@ public class SpawnManager : MonoBehaviour {
             Enemy enemy = enemys[randomMonb];
             Weapon weapon = weapons[randomWeapon];
 
-            if (round < 10)
-            {
-
-                while (weapon.weaponGrade != Weapon.Grade.Normal)
-                {
-                    randomWeapon = Random.Range(0, weapons.Length);
-                    weapon = weapons[randomWeapon];
-                }
-
-
-                Enemy enemyObject = Instantiate(enemy.gameObject).GetComponent<Enemy>();
-                Weapon weaponObject = Instantiate(weapon.gameObject).GetComponent<Weapon>();
-
-                enemyObject.transform.position = GetRandomSpawnPoint();
-                enemyObject.transform.SetParent(enemyStorage);
-
-
-                weaponObject.transform.parent = enemyObject.transform;
-
-                weaponObject.playerHealth = playerHealth;
-
-                weaponObject.getButton = FindObjectOfType<Button>();
-
-                enemyObject.SetStrength(0 + round);
-            }
-
-            else if(round >= 10)
+            if (!(round < 10) && round % 10 == 0)
             {
                 if (count < spawnMonsterCount - 1)
                 {
@@ -181,8 +158,39 @@ public class SpawnManager : MonoBehaviour {
                 weaponObject.playerHealth = playerHealth;
 
                 weaponObject.getButton = FindObjectOfType<Button>();
+                if (count < spawnMonsterCount - 1)
+                    enemyObject.SetStrength(0 + round * 0.1f);
+                else if (count == spawnMonsterCount - 1)
+                {
+                    enemyObject.SetStrength(0 + round);
+                    enemyObject.GetComponent<SpriteRenderer>().color = new Color(255f, 0, 0);
+                }
+            }
 
-                enemyObject.SetStrength(0 + round);
+            else
+            {
+
+                while (weapon.weaponGrade != Weapon.Grade.Normal)
+                {
+                    randomWeapon = Random.Range(0, weapons.Length);
+                    weapon = weapons[randomWeapon];
+                }
+
+
+                Enemy enemyObject = Instantiate(enemy.gameObject).GetComponent<Enemy>();
+                Weapon weaponObject = Instantiate(weapon.gameObject).GetComponent<Weapon>();
+
+                enemyObject.transform.position = GetRandomSpawnPoint();
+                enemyObject.transform.SetParent(enemyStorage);
+
+
+                weaponObject.transform.parent = enemyObject.transform;
+
+                weaponObject.playerHealth = playerHealth;
+
+                weaponObject.getButton = FindObjectOfType<Button>();
+
+                enemyObject.SetStrength(0 + round * 0.1f);
             }
 
         }

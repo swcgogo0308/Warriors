@@ -1,20 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class main : MonoBehaviour {//씬이동
-    /*new public void SceneTrans1_2() {
-        Application.LoadLevel("InGame");
-    }
-        */
-    new public void FadeMe(){//FadeOut호출
-        StartCoroutine("DoFade");
-    }
+public class Main : MonoBehaviour {
 
     IEnumerator DoFade(){//FadeOut
         CanvasGroup canvasGrop = GetComponent<CanvasGroup>();
         while (canvasGrop.alpha > 0)
         {
-            canvasGrop.alpha -= Time.deltaTime / 2;
+            canvasGrop.alpha -= Time.deltaTime ;
             yield return null;
         }
         canvasGrop.interactable = false;
@@ -26,5 +19,4 @@ public class main : MonoBehaviour {//씬이동
     {
         StartCoroutine(DoFade());
     }
-    void Update () { }
 }

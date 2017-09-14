@@ -60,7 +60,7 @@ public class PlayerMove : MonoBehaviour
 
 		if (Input.GetMouseButtonDown (0) && !myWeapon._isAttacking) {
 			Rotate ();
-			myWeapon.Attack (playerHealth.isDead);
+            Invoke("Attack", myWeapon.attackDelay);
 		}
 
 		else if (Input.GetMouseButton(0)) {
@@ -74,6 +74,11 @@ public class PlayerMove : MonoBehaviour
 			myWeapon.Shild (false);
 		}
 	}
+
+    void Attack()
+    {
+        myWeapon.Attack(playerHealth.isDead);
+    }
 
     void Rotate()
     {
