@@ -35,7 +35,8 @@ public class Weapon : MonoBehaviour {
     public bool isSpeacial;
     private bool isFallen;
     private bool isTakeDamage;
-    private bool isOnButton;
+    private bool isButtonActive;
+    public static bool isOnButton;
 
 
     public Animator weaponAni;
@@ -59,20 +60,25 @@ public class Weapon : MonoBehaviour {
         allCollider = FindObjectsOfType<Collider2D>();
         PolygonCollider2D myColider = GetComponent<PolygonCollider2D>();
         weaponAni = GetComponent<Animator>();
+        getButton = GameObject.FindGameObjectWithTag("GetButton").GetComponent<Button>();
         StartCoroutine(CheackOwner());
         StartCoroutine(CheackFallen());
         StartCoroutine(ReloadAllCollider());
     }
         // Update is called once per frame
     void Update () {
-        
+        if (isOnButton && owner == Owner.Player)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void GetWeapon()
     {
-        if (isOnButton)
+        if (isButtonActive)
         {
-            transform.parent = playerHealth.transform;
+            isOnButton = true;
+            isButtonActive = false;
         }
     }
 
@@ -173,11 +179,20 @@ public class Weapon : MonoBehaviour {
 
             if (hit.CompareTag("Player"))
             {
-                isOnButton = true;
+                isButtonActive = true;
             }
 
+            getButton.onClick.AddListener(() => { GetWeapon(); });
+
+            if (!isOnButton) return;
+
+            Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+
+            transform.parent = playerTransform;
+
         }
-        else if (_isAttacking)
+
+        if (_isAttacking)
         {
             Physics2D.IgnoreCollision(myColider, hit, true);
 
@@ -207,6 +222,7 @@ public class Weapon : MonoBehaviour {
 			
 		}
     }
+
 
     IEnumerator DamageDelay()
     {
@@ -249,19 +265,13 @@ public class Weapon : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        /*if(isFallen)
-        {
-        }*/
+
     }
 
     private void OnTriggerExit2D(Collider2D hit)
     {
-        isOnButton = false;
-
-        /*if (isFallen)
-        {
-            getButtonText.text = "False";
-        }*/
+        if(isFallen)
+            isButtonActive = false;
 
         Physics2D.IgnoreCollision(myColider, hit, false);
 

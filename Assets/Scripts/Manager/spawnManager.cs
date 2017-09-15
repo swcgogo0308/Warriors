@@ -43,12 +43,6 @@ public class SpawnManager : MonoBehaviour {
         StartCoroutine(GameOver());
     }
 
-    
-    void Update()
-    {
-        
-    }
-
     private IEnumerator GameOver()
     {
         while(true)
@@ -57,11 +51,10 @@ public class SpawnManager : MonoBehaviour {
 
             if (playerHealth.isDead)
             {
-
                 enemyScripts = FindObjectsOfType<Enemy>();
 
-                for(int i = 0; i < enemyScripts.Length; i++)
-                    enemyScripts[i].enabled = false;
+                for (int i = 0; i < enemyScripts.Length; i++)
+                    enemyScripts[i].gameObject.SetActive(false);
 
                 yield return new WaitForSeconds(2f);
                 break;
@@ -111,6 +104,8 @@ public class SpawnManager : MonoBehaviour {
 
     IEnumerator EnemySpawn(float round)
     {
+        if (playerHealth.isDead) yield break ;
+
         WaitForSeconds spawnDelay = new WaitForSeconds(0.5f);
 
         int spawnMonsterCount = 1 + (int)(round * 0.1f);

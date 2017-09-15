@@ -58,7 +58,7 @@ public class PlayerMove : MonoBehaviour
     {
 		if (joystick.isDrag || myWeapon == null) return;
 
-		if (Input.GetMouseButtonDown (0) && !myWeapon._isAttacking) {
+            if (Input.GetMouseButtonDown (0) && !myWeapon._isAttacking) {
 			Rotate ();
             Invoke("Attack", myWeapon.attackDelay);
 		}

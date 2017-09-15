@@ -88,9 +88,9 @@ public class PlayerHealth : MonoBehaviour {
         anim.SetBool("isDead", true);
         yield return new WaitForSeconds(1.2f);
         Transform fallenWeaponStorage = GameObject.FindGameObjectWithTag("Fallen").transform;
-        fallenWeaponStorage.position = this.transform.position;
+        fallenWeaponStorage.position = transform.position;
 
         myWeapon.gameObject.transform.parent = fallenWeaponStorage;
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }
