@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Main : MonoBehaviour {
 
-    IEnumerator DoFade(){//FadeOut
+    IEnumerator FadeOut(){//FadeOut
         CanvasGroup canvasGrop = GetComponent<CanvasGroup>();
         while (canvasGrop.alpha > 0)
         {
@@ -15,8 +15,23 @@ public class Main : MonoBehaviour {
 
         Application.LoadLevel("InGame");
     }
+
+    IEnumerator FadeIn()
+    {//FadeOut
+        CanvasGroup canvasGrop = GetComponent<CanvasGroup>();
+        while (canvasGrop.alpha < 1)
+        {
+            canvasGrop.alpha += Time.deltaTime;
+            yield return null;
+        }
+        canvasGrop.interactable = false;
+        yield return null;
+
+        Application.LoadLevel("InGame");
+    }
+
     public void Starting()
     {
-        StartCoroutine(DoFade());
+        StartCoroutine(FadeOut());
     }
 }

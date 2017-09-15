@@ -128,7 +128,6 @@ public class Weapon : MonoBehaviour {
             else if (transform.parent.CompareTag("Fallen"))
                 owner = Owner.Fallen;
         }
-        
     }
 
     public void Attack(bool isDead)
