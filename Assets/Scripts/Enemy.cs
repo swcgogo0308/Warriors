@@ -171,4 +171,15 @@ public class Enemy : MonoBehaviour {
 
         Destroy(gameObject);
     }
+
+	public void WeaponBreak()
+	{
+		Destroy (myWeapon.gameObject);
+
+		foreach (Transform child in transform)
+		{
+			if (child.CompareTag("Weapon"))
+				myWeapon = child.GetComponent<Weapon>();
+		}
+	}
 }

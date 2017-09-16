@@ -60,7 +60,7 @@ public class PlayerMove : MonoBehaviour
 
             if (Input.GetMouseButtonDown (0) && !myWeapon._isAttacking) {
 			Rotate ();
-            Invoke("Attack", myWeapon.attackDelay);
+			Attack ();
 		}
 
 		else if (Input.GetMouseButton(0)) {
@@ -93,5 +93,16 @@ public class PlayerMove : MonoBehaviour
 	private void SetupLimitArea()
 	{
 		limitArea = MapManager.LimitArea.AddMargin(limitPadding);
+	}
+
+	public void WeaponBreak()
+	{
+		Destroy (myWeapon.gameObject);
+
+		foreach (Transform child in transform)
+		{
+			if (child.CompareTag("Weapon"))
+				myWeapon = child.GetComponent<Weapon>();
+		}
 	}
 }

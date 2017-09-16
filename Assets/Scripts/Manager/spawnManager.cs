@@ -72,23 +72,17 @@ public class SpawnManager : MonoBehaviour {
 
         int i = 0;
 
-        while(true)
+		/*while(i != texts.Length)
         {
-            if(texts[i].name == "RoundText")
-            {
-                roundText = texts[i];
-                break;
-            }
-
-            if(i == texts.Length)
-            {
-                break; 
-            }
-        }
+			if (texts [i].name == "RoundText") {
+				roundText = texts [i];
+				break;
+			}
+        }*/
 
         while (true)
         {
-            roundText.text = "Round : " + round;
+            //roundText.text = "Round : " + round;
             roundState = State.Spawning;
 
             yield return EnemySpawn(round);
@@ -116,6 +110,7 @@ public class SpawnManager : MonoBehaviour {
         {
 
             yield return spawnDelay;
+
             int randomMonb = Random.Range(0, enemys.Length);
             int randomWeapon = Random.Range(0, weapons.Length);
 
