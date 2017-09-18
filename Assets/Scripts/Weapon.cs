@@ -61,8 +61,8 @@ public class Weapon : MonoBehaviour {
         PolygonCollider2D myColider = GetComponent<PolygonCollider2D>();
         weaponAni = GetComponent<Animator>();
         getButton = GameObject.FindGameObjectWithTag("GetButton").GetComponent<Button>();
-		StartCoroutine (CheackOwner ());
 		StartCoroutine(ReloadAllCollider());
+		StartCoroutine (CheackOwner ());
         StartCoroutine(CheackFallen());
         
     }
@@ -87,8 +87,10 @@ public class Weapon : MonoBehaviour {
             if (owner == Owner.Fallen)
             {
 				getButton.onClick.AddListener(() => GetWeapon(_isButtonActive));
-               // yield return DestoryCount();
+               	yield return DestoryCount();
             }
+			else
+				isFallen = false;
         }
     }
 
@@ -100,7 +102,7 @@ public class Weapon : MonoBehaviour {
 
         yield return new WaitForSeconds(5f);
 
-		if (owner == Owner.Fallen)
+		if (isFallen)
 			Destroy (transform.parent.gameObject);
 
     }
@@ -109,34 +111,25 @@ public class Weapon : MonoBehaviour {
 
     IEnumerator ReloadAllCollider()
     {
-		int i = 0;
 
-		while (true) 
+		allCollider = FindObjectsOfType<Collider2D> ();
+
+		for (int i = 0; i < allCollider.Length; i++) 
 		{
-			allCollider = FindObjectsOfType<Collider2D> ();
+			yield return null;
 
-			if (owner != Owner.Fallen) 
+			for (int j = 0; j <= i; j++) 
 			{
-				while (i < allCollider.Length) 
-				{
-					yield return null;
-					Physics2D.IgnoreCollision (myColider, allCollider [i], false);
-					i++;
-				}
-			} 
-
-			else if (owner == Owner.Fallen) 
-			{
-				while (i < allCollider.Length) 
-				{
-					yield return null;
-					Physics2D.IgnoreCollision (myColider, allCollider [i], true);
-					i++;
-				}
+				if (allCollider [j] == allCollider [i])
+					continue;
+				
+				Physics2D.IgnoreCollision (myColider, allCollider [i], false);
 			}
 
-			//i = 0;
 		}
+
+		for(int i = 0; i < allCollider.Length; i++)
+			Debug.Log(allCollider[i]);
     }
 
     IEnumerator CheackOwner()
@@ -195,14 +188,17 @@ public class Weapon : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D hit)
     {
-		Debug.Log (hit.tag);
-		if (owner == Owner.Fallen && hit.CompareTag("Player")) {
+		if (owner == Owner.Fallen) {
 			
-			//Physics2D.IgnoreCollision (myColider, hit, true);
+			Physics2D.IgnoreCollision (myColider, hit, true);
 
-			Debug.Log("Enter");
+			Debug.Log ("Enter");
 
-			_isButtonActive = true;
+			if (hit.CompareTag ("Player")) {
+				//Debug.Log ("Enter");
+
+				_isButtonActive = true;
+			}
 
 			if (!isOnButton)
 				return;
@@ -219,7 +215,7 @@ public class Weapon : MonoBehaviour {
 
 		}
 
-        if (_isAttacking)
+        else if (_isAttacking)
         {
             Physics2D.IgnoreCollision(myColider, hit, true);
 
