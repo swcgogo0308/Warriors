@@ -15,7 +15,7 @@ public class SpawnManager : MonoBehaviour {
     public Weapon[] weapons;
 
     public Enemy[] enemys;
-
+     
     private Enemy[] enemyScripts;
 
     private GameObject[] enemysObject;
@@ -35,8 +35,8 @@ public class SpawnManager : MonoBehaviour {
     public int maxSpawnCount;
 
     void Start () {
-		Transform fallenWeaponStorage = new GameObject("FallenStorage").transform;
-		fallenWeaponStorage.tag = "FallenStorage";
+		//Transform fallenWeaponStorage = new GameObject("FallenStorage").transform;
+		//fallenWeaponStorage.tag = "FallenStorage";
         enemyStorage = new GameObject("EnemyStorage").transform;
 
         StartCoroutine(StartGame());
@@ -68,21 +68,9 @@ public class SpawnManager : MonoBehaviour {
     {
         float round = 0f;
 
-        Text[] texts = FindObjectsOfType<Text>();
-
-        int i = 0;
-
-		/*while(i != texts.Length)
-        {
-			if (texts [i].name == "RoundText") {
-				roundText = texts [i];
-				break;
-			}
-        }*/
-
         while (true)
         {
-            //roundText.text = "Round : " + round;
+            roundText.text = "Round : " + round;
             roundState = State.Spawning;
 
             yield return EnemySpawn(round);
@@ -108,7 +96,6 @@ public class SpawnManager : MonoBehaviour {
 
         for (int count = 0; count < spawnMonsterCount; count++)
         {
-
             yield return spawnDelay;
 
             int randomMonb = Random.Range(0, enemys.Length);
@@ -197,6 +184,7 @@ public class SpawnManager : MonoBehaviour {
 
             if (enemysObject.Length == 0)
             {
+                yield return new WaitForSeconds(5f);
                 roundState = State.AllKill;
                 yield break;
             }

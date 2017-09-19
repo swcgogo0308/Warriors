@@ -162,9 +162,8 @@ public class Enemy : MonoBehaviour {
         if (Random.Range(1, 100) <= weaponFallenProbabile)
         {
 			Transform fallenWeapon = new GameObject("FallenWeapon").transform;
-			fallenWeapon.parent = GameObject.FindGameObjectWithTag ("FallenStorage").transform;
 			fallenWeapon.tag = "Fallen";
-            fallenWeapon.position = this.transform.position;
+            fallenWeapon.position = myWeapon.transform.position;
 
             myWeapon.gameObject.transform.parent = fallenWeapon;
         }
