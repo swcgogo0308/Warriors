@@ -1395,7 +1395,7 @@ MonoBehaviour:
   playerHealth: {fileID: 22152865}
   player: {fileID: 774365417}
   spawnViewportMargin: 0.8
-  roundText: {fileID: 0}
+  roundText: {fileID: 788094259}
   maxSpawnCount: 1
 --- !u!4 &2079869629
 Transform:

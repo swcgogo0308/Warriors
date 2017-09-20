@@ -101,7 +101,7 @@ public class Weapon : MonoBehaviour {
 
         yield return new WaitForSeconds(5f);
 
-		if (isFallen)
+		if (isFallen && !transform.parent.CompareTag("Player"))
 			Destroy (transform.parent.gameObject);
 
     }
@@ -193,8 +193,6 @@ public class Weapon : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D hit)
     {
 		if (isFallen) {
-			
-			//Physics2D.IgnoreCollision (myColider, hit, true);
 
 			_isButtonActive = true;
 
@@ -293,6 +291,7 @@ public class Weapon : MonoBehaviour {
     {
         if (isFallen)
         {
+			Debug.Log ("Stay");
             _isButtonActive = true;
         }
         else
