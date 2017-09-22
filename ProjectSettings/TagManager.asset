@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Fallen
   - FallenStorage
+  - GetButton
   layers:
   - Default
   - TransparentFX

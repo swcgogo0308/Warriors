@@ -162,13 +162,23 @@ public class Enemy : MonoBehaviour {
         if (Random.Range(1, 100) <= weaponFallenProbabile)
         {
 			Transform fallenWeapon = new GameObject("FallenWeapon").transform;
-			fallenWeapon.parent = GameObject.FindGameObjectWithTag ("FallenStorage").transform;
 			fallenWeapon.tag = "Fallen";
-            fallenWeapon.position = this.transform.position;
+            fallenWeapon.position = myWeapon.transform.position;
 
             myWeapon.gameObject.transform.parent = fallenWeapon;
         }
 
         Destroy(gameObject);
     }
+
+	public void WeaponBreak()
+	{
+		Destroy (myWeapon.gameObject);
+
+		foreach (Transform child in transform)
+		{
+			if (child.CompareTag("Weapon"))
+				myWeapon = child.GetComponent<Weapon>();
+		}
+	}
 }

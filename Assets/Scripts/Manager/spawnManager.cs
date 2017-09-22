@@ -15,7 +15,7 @@ public class SpawnManager : MonoBehaviour {
     public Weapon[] weapons;
 
     public Enemy[] enemys;
-
+     
     private Enemy[] enemyScripts;
 
     private GameObject[] enemysObject;
@@ -35,18 +35,12 @@ public class SpawnManager : MonoBehaviour {
     public int maxSpawnCount;
 
     void Start () {
-		Transform fallenWeaponStorage = new GameObject("FallenStorage").transform;
-		fallenWeaponStorage.tag = "FallenStorage";
+		//Transform fallenWeaponStorage = new GameObject("FallenStorage").transform;
+		//fallenWeaponStorage.tag = "FallenStorage";
         enemyStorage = new GameObject("EnemyStorage").transform;
 
         StartCoroutine(StartGame());
         StartCoroutine(GameOver());
-    }
-
-    
-    void Update()
-    {
-        
     }
 
     private IEnumerator GameOver()
@@ -57,11 +51,10 @@ public class SpawnManager : MonoBehaviour {
 
             if (playerHealth.isDead)
             {
-
                 enemyScripts = FindObjectsOfType<Enemy>();
 
-                for(int i = 0; i < enemyScripts.Length; i++)
-                    enemyScripts[i].enabled = false;
+                for (int i = 0; i < enemyScripts.Length; i++)
+                    enemyScripts[i].gameObject.SetActive(false);
 
                 yield return new WaitForSeconds(2f);
                 break;
@@ -74,24 +67,6 @@ public class SpawnManager : MonoBehaviour {
     private IEnumerator StartGame()
     {
         float round = 0f;
-
-        Text[] texts = FindObjectsOfType<Text>();
-
-        int i = 0;
-
-        while(true)
-        {
-            if(texts[i].name == "RoundText")
-            {
-                roundText = texts[i];
-                break;
-            }
-
-            if(i == texts.Length)
-            {
-                break; 
-            }
-        }
 
         while (true)
         {
@@ -111,6 +86,8 @@ public class SpawnManager : MonoBehaviour {
 
     IEnumerator EnemySpawn(float round)
     {
+        if (playerHealth.isDead) yield break ;
+
         WaitForSeconds spawnDelay = new WaitForSeconds(0.5f);
 
         int spawnMonsterCount = 1 + (int)(round * 0.1f);
@@ -119,8 +96,8 @@ public class SpawnManager : MonoBehaviour {
 
         for (int count = 0; count < spawnMonsterCount; count++)
         {
-
             yield return spawnDelay;
+
             int randomMonb = Random.Range(0, enemys.Length);
             int randomWeapon = Random.Range(0, weapons.Length);
 
@@ -207,6 +184,7 @@ public class SpawnManager : MonoBehaviour {
 
             if (enemysObject.Length == 0)
             {
+                yield return new WaitForSeconds(5f);
                 roundState = State.AllKill;
                 yield break;
             }
