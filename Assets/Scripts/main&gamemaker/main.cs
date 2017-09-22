@@ -27,7 +27,7 @@ public class Main : MonoBehaviour {
         canvasGrop.interactable = false;
         yield return null;
 
-        Application.LoadLevel("InGame");
+        Application.LoadLevel("Main");
     }
 
     public void Starting()
