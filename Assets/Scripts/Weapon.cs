@@ -24,9 +24,9 @@ public class Weapon : MonoBehaviour {
 
     public PlayerHealth playerHealth;
 
-    public Button getButton;
+	public Image getButtonImage;
 
-    public Text getButtonText;
+    public Button getButton;
 
     public int damage;
 	public float attackDelay;
@@ -61,13 +61,13 @@ public class Weapon : MonoBehaviour {
         PolygonCollider2D myColider = GetComponent<PolygonCollider2D>();
         weaponAni = GetComponent<Animator>();
         getButton = GameObject.FindGameObjectWithTag("GetButton").GetComponent<Button>();
+		getButtonImage = GameObject.FindGameObjectWithTag ("GetButton").GetComponent<Image>();
 		StartCoroutine(ReloadAllCollider());
         StartCoroutine(CheackFallen());
         
     }
         // Update is called once per frame
     void Update () {
-		
     }
 
 	void GetWeapon(bool isButtonActive)
@@ -127,9 +127,6 @@ public class Weapon : MonoBehaviour {
 
 		}
 
-		for(int i = 0; i < allCollider.Length; i++)
-			Debug.Log(allCollider[i]);
-
         yield return CheackOwner();
     }
 
@@ -142,14 +139,11 @@ public class Weapon : MonoBehaviour {
             yield return null;
 
 			if (transform.parent.CompareTag ("Player")) {
-                Physics2D.IgnoreCollision(myColider, playerCollider, false);
                 owner = Owner.Player;
 			} else if (transform.parent.CompareTag ("Enemy")) {
-                Physics2D.IgnoreCollision(myColider, playerCollider, false);
                 owner = Owner.Enemy;
 			}
 			else if (transform.parent.CompareTag ("Fallen")) {
-				Physics2D.IgnoreCollision (myColider, playerCollider, true);
                 owner = Owner.Fallen;
 			}
         }
@@ -193,9 +187,8 @@ public class Weapon : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D hit)
     {
 		if (isFallen) {
-
+			
 			_isButtonActive = true;
-
 
 			if (!isOnButton)
 				return;
@@ -211,6 +204,8 @@ public class Weapon : MonoBehaviour {
 			owner = Owner.Player;
 
             isOnButton = false;
+
+			myColider.isTrigger = true;
 		}
 
         else if (_isAttacking)
@@ -292,6 +287,7 @@ public class Weapon : MonoBehaviour {
         if (isFallen)
         {
 			Debug.Log ("Stay");
+			getButtonImage.color = new Color (255f, 255f, 255f, 255f);
             _isButtonActive = true;
         }
         else
@@ -304,10 +300,12 @@ public class Weapon : MonoBehaviour {
         if(isFallen)
         {
             Debug.Log("Exit");
+			getButtonImage.color = new Color (184f, 184f, 184f, 255f);
             _isButtonActive = false;
             return;
         }
-		    
-	    Physics2D.IgnoreCollision(myColider, hit, false);
+
+		else 
+	    	Physics2D.IgnoreCollision(myColider, hit, false);
     }
 }
