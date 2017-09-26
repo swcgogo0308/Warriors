@@ -116,13 +116,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6030d6318602d8e40b8dfd235023ea10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   playerTransform: {fileID: 0}
   rayTransform: {fileID: 4888357016778686}
   anim: {fileID: 95053341175356382}
   weaponFallenProbabile: 0
   moveSpeed: 8
   rotateSpeed: 8
-  range: 1.5
+  trackingRange: 8
+  attackRange: 2
   isRange: 0
   max_health: 100
   isDead: 0

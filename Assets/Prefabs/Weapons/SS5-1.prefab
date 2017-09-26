@@ -112,12 +112,14 @@ MonoBehaviour:
   owner: 0
   weaponGrade: 0
   playerHealth: {fileID: 0}
+  getButtonImage: {fileID: 0}
   getButton: {fileID: 0}
-  getButtonText: {fileID: 0}
   damage: 20
   attackDelay: 0.5
   isEpic: 0
   isSpeacial: 0
+  _isButtonActive: 0
+  isOnButton: 0
   weaponAni: {fileID: 0}
   myColider: {fileID: 60789974117695588}
   _isAttacking: 0

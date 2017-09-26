@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
+    public enum State
+    {
+        Attacking,
+        Tracking
+    }
+
+    public State state;
+
     public Transform playerTransform;
 
     public Transform rayTransform;
@@ -18,7 +26,10 @@ public class Enemy : MonoBehaviour {
 
     public float rotateSpeed;
 
-    public float range;
+    public float trackingRange;
+
+    public float attackRange;
+
 
     public bool isRange;
 
@@ -28,7 +39,11 @@ public class Enemy : MonoBehaviour {
 
     private int currentHealth;
 
+    bool stateDelay;
+
     bool isAttack;
+
+    float distance;
 
     public bool isDead;
 
@@ -40,6 +55,7 @@ public class Enemy : MonoBehaviour {
 
     private void Awake()
     {
+        state = State.Tracking;
     }
 
     void Start () {
@@ -66,26 +82,78 @@ public class Enemy : MonoBehaviour {
                 break;
         }
 
+        StartCoroutine(CheckState());
         StartCoroutine(CheckFoward());
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if(myWeapon._isAttacking)
+        {
+            state = State.Tracking;
+        }
+
         if (isDead) return;
+
         Move();
 	}
 
     private void Move()
     {
-        if (myWeapon._isAttacking || isRange) return;
+        if (myWeapon._isAttacking) return;
+
+        Vector3 movePos;
+
         direction = playerTransform.position - transform.position;
+
         direction.z = 0;
+
         direction.Normalize();
 
-        Rotate(false);
+        switch (state)
+        {
+            case State.Tracking:
 
-        Vector3 movePos = transform.position + (direction * moveSpeed * Time.deltaTime);
-        transform.position = movePos;
+                Rotate(false);
+
+                distance = Vector3.Distance(transform.position, playerTransform.position);
+
+                if (distance < trackingRange - trackingRange * 0.1)
+                {
+                    movePos = transform.position + (-direction * moveSpeed * Time.deltaTime);
+
+                    transform.position = movePos;
+                }
+
+                else if (distance < trackingRange)
+                {
+                    movePos = transform.position + (direction * 0);
+
+                    transform.position = movePos;
+                }
+
+                else if (distance > trackingRange)
+                {
+                    movePos = transform.position + (direction * moveSpeed * Time.deltaTime);
+
+                    transform.position = movePos;
+                }
+
+                break;
+
+            case State.Attacking:
+
+                if (isRange) return;
+
+                Rotate(false);
+
+                movePos = transform.position + (direction * moveSpeed * Time.deltaTime);
+
+                transform.position = movePos;
+
+                break;
+        }
+
     }
 
     void Rotate(bool isAttakck)
@@ -98,6 +166,29 @@ public class Enemy : MonoBehaviour {
             transform.eulerAngles = new Vector3(0, 0, angle);
     }
 
+    private IEnumerator CheckState()
+    {
+        while(true)
+        {
+            yield return null;
+
+            if(state == State.Tracking)
+            {
+
+                if (stateDelay) continue;
+
+                stateDelay = true;
+
+                yield return new WaitForSeconds(Random.Range(2, 5));
+
+                state = State.Attacking;
+
+                stateDelay = false;
+            }
+        }
+       
+    }
+
     private IEnumerator CheckFoward()
     {
         while (true)
@@ -106,19 +197,42 @@ public class Enemy : MonoBehaviour {
 
             Ray2D ray = new Ray2D(rayTransform.position, -transform.right);
 
-            RaycastHit2D rayHit = Physics2D.Raycast(ray.origin, ray.direction, range);
-
-            if (rayHit.collider == null || rayHit.collider.tag != "Player")
+            switch(state)
             {
-                isRange = false;
-                continue;
+                case State.Tracking:
+
+                    RaycastHit2D trackingRayHit = Physics2D.Raycast(ray.origin, ray.direction, trackingRange);
+
+                    if (trackingRayHit.collider == null || trackingRayHit.collider.tag != "Player")
+                    {
+                        isRange = false;
+                        continue;
+                    }
+
+                    isRange = true;
+
+                    break;
+
+                case State.Attacking:
+
+                    RaycastHit2D attackingRayHit = Physics2D.Raycast(ray.origin, ray.direction, attackRange);
+
+                    if (attackingRayHit.collider == null || attackingRayHit.collider.tag != "Player")
+                    {
+                        isRange = false;
+                        continue;
+                    }
+
+                    isRange = true;
+
+                    Invoke("Attack", myWeapon.attackDelay);
+
+                    yield return new WaitForSeconds(1f);
+
+                    break;
             }
 
-            isRange = true;
-
-            Invoke("Attack", myWeapon.attackDelay);
-
-            yield return new WaitForSeconds(1f);
+            
         }
     }
 
@@ -129,6 +243,7 @@ public class Enemy : MonoBehaviour {
         Rotate(true);
 
         myWeapon.Attack(isDead);
+
     }
 
     public void TakeDamage(int damage)

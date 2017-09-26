@@ -1372,7 +1372,7 @@ MonoBehaviour:
   player: {fileID: 774365417}
   spawnViewportMargin: 0.8
   roundText: {fileID: 788094259}
-  maxSpawnCount: 1
+  maxSpawnCount: 3
 --- !u!4 &2079869629
 Transform:
   m_ObjectHideFlags: 0
