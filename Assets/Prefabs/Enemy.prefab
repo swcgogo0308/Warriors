@@ -121,9 +121,9 @@ MonoBehaviour:
   rayTransform: {fileID: 4888357016778686}
   anim: {fileID: 95053341175356382}
   weaponFallenProbabile: 0
-  moveSpeed: 8
+  moveSpeed: 6.5
   rotateSpeed: 8
-  trackingRange: 8
+  trackingRange: 10
   attackRange: 2
   isRange: 0
   max_health: 100

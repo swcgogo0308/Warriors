@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour {
 
     public enum State
     {
+        Idle,
         Attacking,
         Tracking
     }
@@ -112,6 +113,20 @@ public class Enemy : MonoBehaviour {
 
         switch (state)
         {
+            case State.Idle:
+
+                distance = Vector3.Distance(transform.position, playerTransform.position);
+
+                Rotate(false);
+
+                movePos = transform.position + (direction * 0);
+
+                transform.position = movePos;
+
+                if (distance <= attackRange) state = State.Attacking;
+
+                break;
+
             case State.Tracking:
 
                 Rotate(false);
@@ -125,11 +140,9 @@ public class Enemy : MonoBehaviour {
                     transform.position = movePos;
                 }
 
-                else if (distance < trackingRange)
+                else if (distance <= trackingRange)
                 {
-                    movePos = transform.position + (direction * 0);
-
-                    transform.position = movePos;
+                    state = State.Idle;
                 }
 
                 else if (distance > trackingRange)
