@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
 
 public class Enemy : MonoBehaviour {
 
@@ -13,11 +16,15 @@ public class Enemy : MonoBehaviour {
 
     public State state;
 
+    private SpriteRenderer mySprite;
+
     public Transform playerTransform;
 
     public Transform rayTransform;
 
     public Animator anim;
+
+    private Color myColor;
 
     Vector3 direction;
 
@@ -31,6 +38,9 @@ public class Enemy : MonoBehaviour {
 
     public float attackRange;
 
+    public float flashSpeed;
+
+	bool isTrackingMove;
 
     public bool isRange;
 
@@ -43,6 +53,10 @@ public class Enemy : MonoBehaviour {
     bool stateDelay;
 
     bool isAttack;
+
+	bool isBackMoving;
+
+    bool isDamage;
 
     float distance;
 
@@ -57,9 +71,12 @@ public class Enemy : MonoBehaviour {
     private void Awake()
     {
         state = State.Tracking;
+        myColor = GetComponent<SpriteRenderer>().color;
     }
 
     void Start () {
+
+        mySprite = GetComponent<SpriteRenderer>();
 
         currentHealth = max_health;
 
@@ -89,9 +106,14 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(myWeapon._isAttacking)
+
+        DamageEffect();
+
+
+        if (myWeapon._isAttacking)
         {
             state = State.Tracking;
+			StartCoroutine(BackMovingDelay());
         }
 
         if (isDead) return;
@@ -113,46 +135,44 @@ public class Enemy : MonoBehaviour {
 
         switch (state)
         {
-            case State.Idle:
 
-                distance = Vector3.Distance(transform.position, playerTransform.position);
+		case State.Tracking:
 
-                Rotate(false);
+			Rotate (false);
 
-                movePos = transform.position + (direction * 0);
+			distance = Vector3.Distance (transform.position, playerTransform.position);
 
-                transform.position = movePos;
-
-                if (distance <= attackRange) state = State.Attacking;
-
-                break;
-
-            case State.Tracking:
-
-                Rotate(false);
-
-                distance = Vector3.Distance(transform.position, playerTransform.position);
-
-                if (distance < trackingRange - trackingRange * 0.1)
+                if (isBackMoving)
                 {
+                    if (distance > trackingRange) return;
+
                     movePos = transform.position + (-direction * moveSpeed * Time.deltaTime);
 
                     transform.position = movePos;
-                }
 
-                else if (distance <= trackingRange)
-                {
-                    state = State.Idle;
                 }
-
                 else if (distance > trackingRange)
                 {
+
+                    if (isTrackingMove) return;
+
                     movePos = transform.position + (direction * moveSpeed * Time.deltaTime);
 
                     transform.position = movePos;
                 }
+                else if (distance <= attackRange + (attackRange * 0.5f))
+                {
 
-                break;
+                    state = State.Attacking;
+
+                }
+                else if (distance <= trackingRange) {
+				
+				StartCoroutine (TrackingDelay ());
+
+			} 
+
+            break;
 
             case State.Attacking:
 
@@ -168,6 +188,29 @@ public class Enemy : MonoBehaviour {
         }
 
     }
+
+	IEnumerator TrackingDelay()
+	{
+		if (isTrackingMove) yield break;
+
+		isTrackingMove = true;
+
+		yield return new WaitForSeconds (3f);
+
+		isTrackingMove = false;
+	}
+
+
+	IEnumerator BackMovingDelay()
+	{
+		if (isBackMoving) yield break;
+
+		isBackMoving = true;
+
+		yield return new WaitForSeconds (1.5f);
+
+		isBackMoving = false;
+	}
 
     void Rotate(bool isAttakck)
     {
@@ -267,6 +310,23 @@ public class Enemy : MonoBehaviour {
         {
             Death();
         }
+
+        isDamage = true;
+    }
+
+    void DamageEffect()
+    {
+        if (isDamage)
+        {
+            mySprite.color = new Color(255f, 0f, 0f);
+        }
+        else
+        {
+            mySprite.color = Color.Lerp(mySprite.color, myColor, flashSpeed * Time.deltaTime);
+        }
+
+        isDamage = false;
+
     }
 
     public void SetStrength(float strength)
