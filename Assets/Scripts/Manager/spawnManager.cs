@@ -90,7 +90,7 @@ public class SpawnManager : MonoBehaviour {
 
         WaitForSeconds spawnDelay = new WaitForSeconds(0.5f);
 
-        int spawnMonsterCount = 1 + (int)(round * 0.1f);
+        int spawnMonsterCount = 1 + (int)(round * 0.2f);
 
         if (spawnMonsterCount >= maxSpawnCount) spawnMonsterCount = maxSpawnCount;
 
@@ -140,7 +140,7 @@ public class SpawnManager : MonoBehaviour {
                 else if (count == spawnMonsterCount - 1)
                 {
                     enemyObject.SetStrength(0 + round);
-                    enemyObject.GetComponent<SpriteRenderer>().color = new Color(255f, 0, 0);
+                    enemyObject.GetComponent<SpriteRenderer>().color = new Color(255f, 100f, 0);
                 }
             }
 

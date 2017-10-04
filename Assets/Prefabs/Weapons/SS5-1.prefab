@@ -115,7 +115,7 @@ MonoBehaviour:
   getButtonImage: {fileID: 0}
   getButton: {fileID: 0}
   damage: 20
-  attackDelay: 0.5
+  attackDelay: 0.2
   isEpic: 0
   isSpeacial: 0
   _isButtonActive: 0
