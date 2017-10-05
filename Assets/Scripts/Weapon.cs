@@ -51,8 +51,6 @@ public class Weapon : MonoBehaviour {
 
 	public bool _isBlocking;
 
-
-
     // Use this for initialization
     void Start()
     {
@@ -64,9 +62,9 @@ public class Weapon : MonoBehaviour {
 		getButtonImage = GameObject.FindGameObjectWithTag ("GetButton").GetComponent<Image>();
 		StartCoroutine(ReloadAllCollider());
         StartCoroutine(CheackFallen());
-        
+        damage += PlayerPrefs.GetInt("DamageUp");
     }
-        // Update is called once per frame
+    // Update is called once per frame
     void Update () {
     }
 

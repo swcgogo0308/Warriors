@@ -10,7 +10,7 @@ public class SpawnManager : MonoBehaviour {
     {
         Spawning, AllKill, Survive, Idle
     }
-
+    public UpgradeManager upgradeManagerScript;
 
     public Weapon[] weapons;
 
@@ -33,6 +33,8 @@ public class SpawnManager : MonoBehaviour {
     public Text roundText;
 
     public int maxSpawnCount;
+
+    public int startSpawnCount;
 
     void Start () {
 		//Transform fallenWeaponStorage = new GameObject("FallenStorage").transform;
@@ -78,6 +80,12 @@ public class SpawnManager : MonoBehaviour {
             while (roundState == State.Spawning)
             {
                 yield return null;
+            }
+
+            if(round % 5 == 0 && round != 0)
+            {
+                upgradeManagerScript.isLevelUp = true;
+                upgradeManagerScript.isOnButton = false;
             }
 
             round += 1f;
@@ -136,10 +144,10 @@ public class SpawnManager : MonoBehaviour {
 
                 weaponObject.getButton = FindObjectOfType<Button>();
                 if (count < spawnMonsterCount - 1)
-                    enemyObject.SetStrength(0 + round * 0.1f);
+                    enemyObject.SetStrength(0 + round * 0.2f);
                 else if (count == spawnMonsterCount - 1)
                 {
-                    enemyObject.SetStrength(0 + round);
+                    enemyObject.SetStrength(0 + round * 0.2f * 5);
                     enemyObject.GetComponent<SpriteRenderer>().color = new Color(255f, 100f, 0);
                 }
             }
@@ -166,8 +174,6 @@ public class SpawnManager : MonoBehaviour {
                 weaponObject.playerHealth = playerHealth;
 
                 weaponObject.getButton = FindObjectOfType<Button>();
-
-                enemyObject.SetStrength(0 + round * 0.1f);
             }
 
         }

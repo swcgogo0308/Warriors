@@ -74,6 +74,10 @@ public class PlayerHealth : MonoBehaviour {
         }
     }
 
+    public void SetStrength(int strength)
+    {
+        maxHealth = strength + maxHealth;
+    }
 
     void Death()
     {

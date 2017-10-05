@@ -142,16 +142,18 @@ public class Enemy : MonoBehaviour {
 
 			distance = Vector3.Distance (transform.position, playerTransform.position);
 
-                if (isBackMoving)
-                {
-                    if (distance > trackingRange) return;
+            if (isBackMoving)
+            {
+                if (distance > trackingRange) return;
 
-                    movePos = transform.position + (-direction * moveSpeed * Time.deltaTime);
+                movePos = transform.position + (-direction * moveSpeed * Time.deltaTime);
 
-                    transform.position = movePos;
+                transform.position = movePos;
 
-                }
-                else if (distance > trackingRange)
+            }
+            else
+            {
+                if (distance > trackingRange)
                 {
 
                     if (isTrackingMove) return;
@@ -160,17 +162,20 @@ public class Enemy : MonoBehaviour {
 
                     transform.position = movePos;
                 }
-                else if (distance <= attackRange + (attackRange * 0.5f))
+                if (distance <= attackRange + (attackRange * 0.5f))
                 {
 
                     state = State.Attacking;
 
                 }
-                else if (distance <= trackingRange) {
-				
-				StartCoroutine (TrackingDelay ());
+                if (distance <= trackingRange)
+                {
 
-			} 
+                    StartCoroutine(TrackingDelay());
+
+                }
+            }
+                
 
             break;
 
@@ -207,7 +212,7 @@ public class Enemy : MonoBehaviour {
 
 		isBackMoving = true;
 
-		yield return new WaitForSeconds (1.5f);
+		yield return new WaitForSeconds (Random.Range(1, 3));
 
 		isBackMoving = false;
 	}
@@ -235,7 +240,7 @@ public class Enemy : MonoBehaviour {
 
                 stateDelay = true;
 
-                yield return new WaitForSeconds(Random.Range(2, 5));
+                yield return new WaitForSeconds(Random.Range(3, 8));
 
                 state = State.Attacking;
 
@@ -288,6 +293,7 @@ public class Enemy : MonoBehaviour {
                     break;
             }
 
+            //TODO AI Patch
             
         }
     }
@@ -331,7 +337,7 @@ public class Enemy : MonoBehaviour {
 
     public void SetStrength(float strength)
     {
-        currentHealth = (int)strength * 50 + currentHealth;
+        currentHealth = (int)strength * 10 + currentHealth;
     }
 
     void Death()

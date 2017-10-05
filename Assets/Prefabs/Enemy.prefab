@@ -127,7 +127,7 @@ MonoBehaviour:
   attackRange: 2
   flashSpeed: 4
   isRange: 0
-  max_health: 100
+  max_health: 40
   isDead: 0
   isOnDamage: 0
   myWeapon: {fileID: 0}
