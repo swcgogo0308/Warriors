@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour {
 
     private int health;
 
-    private int currentHealth;
+    public int currentHealth;
 
     bool stateDelay;
 
@@ -346,9 +346,9 @@ public class Enemy : MonoBehaviour {
 
     public void SetStrength(float strength)
     {
-        currentHealth = (int)strength * 10 + currentHealth;
+        max_health  += (int)strength * 10 + maxhealth;
 
-        max_health = currentHealth;
+        currentHealth = max_health;
     }
 
     void Death()

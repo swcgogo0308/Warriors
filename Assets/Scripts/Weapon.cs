@@ -38,6 +38,7 @@ public class Weapon : MonoBehaviour {
     public bool _isButtonActive;
     public bool isOnButton = false;
 
+    private Color buttonColor;
 
     public Animator weaponAni;
 
@@ -59,11 +60,12 @@ public class Weapon : MonoBehaviour {
         PolygonCollider2D myColider = GetComponent<PolygonCollider2D>();
         weaponAni = GetComponent<Animator>();
         getButton = GameObject.FindGameObjectWithTag("GetButton").GetComponent<Button>();
-		getButtonImage = GameObject.FindGameObjectWithTag ("GetButton").GetComponent<Image>();
-		StartCoroutine(ReloadAllCollider());
+        getButtonImage = GameObject.FindGameObjectWithTag("GetButton").GetComponent<Image>();
+        StartCoroutine(ReloadAllCollider());
         StartCoroutine(CheackFallen());
         damage += PlayerPrefs.GetInt("DamageUp");
     }
+
     // Update is called once per frame
     void Update () {
     }
@@ -283,9 +285,7 @@ public class Weapon : MonoBehaviour {
     private void OnTriggerStay2D(Collider2D hit)
     {
         if (isFallen)
-        {
-			Debug.Log ("Stay");
-			getButtonImage.color = new Color (255f, 255f, 255f, 255f);
+        { 
             _isButtonActive = true;
         }
         else
@@ -296,9 +296,7 @@ public class Weapon : MonoBehaviour {
     private void OnTriggerExit2D(Collider2D hit)
     {
         if(isFallen)
-        {
-            Debug.Log("Exit");
-			getButtonImage.color = new Color (184f, 184f, 184f, 255f);
+        { 
             _isButtonActive = false;
             return;
         }
