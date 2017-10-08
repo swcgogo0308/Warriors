@@ -86,9 +86,11 @@ public class SpawnManager : MonoBehaviour {
             {
                 upgradeManagerScript.isLevelUp = true;
                 upgradeManagerScript.isOnButton = false;
+                playerHealth.FillHealth();
             }
 
             round += 1f;
+            
         }
     }
 

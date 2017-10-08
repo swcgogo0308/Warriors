@@ -40,8 +40,6 @@ public class Enemy : MonoBehaviour {
 
     public float flashSpeed;
 
-	bool isTrackingMove;
-
     public bool isRange;
 
     public int max_health;
@@ -56,6 +54,8 @@ public class Enemy : MonoBehaviour {
 
 	bool isBackMoving;
 
+    bool isTrackingMove;
+
     bool isDamage;
 
     float distance;
@@ -66,6 +66,7 @@ public class Enemy : MonoBehaviour {
 
     [Header("Weapon")]
     public Weapon myWeapon;
+
     // Use this for initialization
 
     private void Awake()
@@ -135,49 +136,48 @@ public class Enemy : MonoBehaviour {
 
         switch (state)
         {
+            
+		    case State.Tracking:
 
-		case State.Tracking:
+			    Rotate (false);
 
-			Rotate (false);
+			    distance = Vector3.Distance (transform.position, playerTransform.position);
 
-			distance = Vector3.Distance (transform.position, playerTransform.position);
-
-            if (isBackMoving)
-            {
-                if (distance > trackingRange) return;
-
-                movePos = transform.position + (-direction * moveSpeed * Time.deltaTime);
-
-                transform.position = movePos;
-
-            }
-            else
-            {
-                if (distance > trackingRange)
+                if (isBackMoving)
                 {
+                    if (distance > trackingRange) return;
 
-                    if (isTrackingMove) return;
-
-                    movePos = transform.position + (direction * moveSpeed * Time.deltaTime);
+                    movePos = transform.position + (-direction * moveSpeed * Time.deltaTime);
 
                     transform.position = movePos;
+
                 }
-                if (distance <= attackRange + (attackRange * 0.5f))
+
+                else
                 {
+                    if (distance > trackingRange)
+                    {
 
-                    state = State.Attacking;
+                        if (isTrackingMove) return;
 
+                        movePos = transform.position + (direction * moveSpeed * Time.deltaTime);
+
+                        transform.position = movePos;
+                    }
+
+                    if(distance <= attackRange * 2f)
+                    {
+                        state = State.Attacking;
+                    }
+
+                    if (distance <= trackingRange)
+                    {
+                        StartCoroutine(TrackingDelay());
+                    }
                 }
-                if (distance <= trackingRange)
-                {
-
-                    StartCoroutine(TrackingDelay());
-
-                }
-            }
                 
 
-            break;
+                break;
 
             case State.Attacking:
 
@@ -190,7 +190,7 @@ public class Enemy : MonoBehaviour {
                 transform.position = movePos;
 
                 break;
-        }
+            }
 
     }
 
@@ -200,7 +200,7 @@ public class Enemy : MonoBehaviour {
 
 		isTrackingMove = true;
 
-		yield return new WaitForSeconds (3f);
+		yield return new WaitForSeconds (0.5f);
 
 		isTrackingMove = false;
 	}
@@ -212,7 +212,7 @@ public class Enemy : MonoBehaviour {
 
 		isBackMoving = true;
 
-		yield return new WaitForSeconds (Random.Range(1, 3));
+		yield return new WaitForSeconds (Random.Range(1.5f, 2f));
 
 		isBackMoving = false;
 	}
@@ -338,6 +338,8 @@ public class Enemy : MonoBehaviour {
     public void SetStrength(float strength)
     {
         currentHealth = (int)strength * 10 + currentHealth;
+
+        max_health = currentHealth;
     }
 
     void Death()

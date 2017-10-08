@@ -79,6 +79,11 @@ public class PlayerHealth : MonoBehaviour {
         maxHealth = strength + maxHealth;
     }
 
+    public void FillHealth()
+    {
+        currentHealth = maxHealth * 0.2f;
+    }
+
     void Death()
     {
         isDead = true;
