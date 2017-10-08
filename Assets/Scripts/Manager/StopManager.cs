@@ -5,23 +5,14 @@ using UnityEngine.UI;
 
 public class StopManager : MonoBehaviour {
 
-    public GameObject StopPopUp;
-    public bool isClick;
+    public GameObject stopPopUp;
+    public GameObject stopButton;
 
 	public void Click()
     {
-        if (!isClick)
-        {
-            StopPopUp.SetActive(true);
-            Time.timeScale = 0;
-            isClick = true;
-        }
-        else
-        {
-            StopPopUp.SetActive(false);
-            Time.timeScale = 1;
-            isClick = false;
-        }
+        stopPopUp.SetActive(true);
+        Time.timeScale = 0;
+        stopButton.SetActive(false);
     }
 
     public void ReStart()
@@ -34,5 +25,12 @@ public class StopManager : MonoBehaviour {
     {
         Time.timeScale = 1;
         Application.LoadLevel("Main");
+    }
+
+    public void Return()
+    {
+        Time.timeScale = 1;
+        stopPopUp.SetActive(false);
+        stopButton.SetActive(true);
     }
 }
