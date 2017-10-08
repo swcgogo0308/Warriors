@@ -12,6 +12,12 @@ public class PlayerHealth : MonoBehaviour {
 
     public PlayerMove playerMovement;
 
+    public AudioSource audioSource;
+
+    public AudioClip takeDamage;
+
+    public AudioClip death;
+
     public Image damageImage;
 
     public Weapon myWeapon;
@@ -23,7 +29,9 @@ public class PlayerHealth : MonoBehaviour {
 
     public int maxHealth;
 
-    private int currentHealth;
+    public int currentHealth;
+
+    public Text healthText;
 
     bool isDamage;
     public bool isDead;
@@ -43,6 +51,10 @@ public class PlayerHealth : MonoBehaviour {
     void Update()
     {
         DamageEffect();
+
+        healthText.text = "" + currentHealth ;
+
+        HealthBar.value = currentHealth;
     }
 
     void DamageEffect()
@@ -60,28 +72,41 @@ public class PlayerHealth : MonoBehaviour {
 
         isDamage = false;
 
+        
     }
 
     public void TakeDamage(int damage)
     {
         isDamage = true;
         currentHealth -= damage;
-        HealthBar.value = currentHealth;
 
         if(currentHealth <= 0 && !isDead)
         {
             Death();
         }
+
+        audioSource.clip = takeDamage;
+        audioSource.Play();
     }
 
     public void SetStrength(int strength)
     {
         maxHealth = strength + maxHealth;
+
+        HealthBar.maxValue = maxHealth;
+    }
+
+    public void LevelUp()
+    {
+        currentHealth = maxHealth;
     }
 
     public void FillHealth()
     {
-        currentHealth = maxHealth * 0.2f;
+        currentHealth += maxHealth / 10;
+
+        if (currentHealth >= maxHealth)
+            currentHealth = maxHealth;
     }
 
     void Death()
@@ -95,7 +120,10 @@ public class PlayerHealth : MonoBehaviour {
     IEnumerator DeathEffect()
     {
         anim.SetBool("isDead", true);
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(0.8f);
+        audioSource.clip = death;
+        audioSource.Play();
+        yield return new WaitForSeconds(0.4f);
         Transform fallenWeaponStorage = GameObject.FindGameObjectWithTag("Fallen").transform;
         fallenWeaponStorage.position = transform.position;
 

@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Main : MonoBehaviour {
 
+    public AudioSource audioSource;
+    CanvasGroup canvasGrop;
+
+    void Start()
+    {
+        canvasGrop = GetComponent<CanvasGroup>();
+        StartCoroutine(FadeIn());
+    }
+
     IEnumerator FadeOut(){//FadeOut
-        CanvasGroup canvasGrop = GetComponent<CanvasGroup>();
         while (canvasGrop.alpha > 0)
         {
-            canvasGrop.alpha -= Time.deltaTime ;
+            canvasGrop.alpha -= Time.deltaTime / 1.2f;
             yield return null;
         }
         canvasGrop.interactable = false;
@@ -18,16 +26,15 @@ public class Main : MonoBehaviour {
 
     IEnumerator FadeIn()
     {//FadeOut
-        CanvasGroup canvasGrop = GetComponent<CanvasGroup>();
+        canvasGrop.alpha = 0;
+
         while (canvasGrop.alpha < 1)
         {
-            canvasGrop.alpha += Time.deltaTime;
+            canvasGrop.alpha += Time.deltaTime / 1.2f;
             yield return null;
         }
-        canvasGrop.interactable = false;
-        yield return null;
 
-        Application.LoadLevel("Main");
+        audioSource.Play();
     }
 
     public void Starting()

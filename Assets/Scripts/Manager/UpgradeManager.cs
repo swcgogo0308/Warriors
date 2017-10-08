@@ -57,6 +57,8 @@ public class UpgradeManager : MonoBehaviour {
 
         playerMoveScript.myWeapon.damage += PlayerPrefs.GetInt("DamageUp");
 
+        playerHealthScript.LevelUp();
+
         isLevelUp = false;
     }
 
@@ -68,6 +70,8 @@ public class UpgradeManager : MonoBehaviour {
 
         playerHealthScript.SetStrength(50);
 
+        playerHealthScript.LevelUp();
+
         isLevelUp = false;
     }
 
@@ -78,6 +82,8 @@ public class UpgradeManager : MonoBehaviour {
         isOnButton = true;
 
         playerMoveScript.moveSpeed += 1f;
+
+        playerHealthScript.LevelUp();
 
         isLevelUp = false;
     }

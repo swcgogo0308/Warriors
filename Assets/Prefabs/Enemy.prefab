@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 114416868822382878}
   - component: {fileID: 58786951953893258}
   - component: {fileID: 95053341175356382}
-  - component: {fileID: 82124841494148550}
+  - component: {fileID: 82476886292049870}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -89,7 +89,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.775
---- !u!82 &82124841494148550
+--- !u!82 &82476886292049870
 AudioSource:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -98,8 +98,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: e760ecfb8decb774fac3ac499fdb2ee5, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -201,6 +201,9 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   rayTransform: {fileID: 4888357016778686}
   anim: {fileID: 95053341175356382}
+  audioSource: {fileID: 82476886292049870}
+  takeDamage: {fileID: 8300000, guid: e760ecfb8decb774fac3ac499fdb2ee5, type: 3}
+  death: {fileID: 8300000, guid: 725116e8f20b3984190c9d6260af75ab, type: 3}
   weaponFallenProbabile: 0
   moveSpeed: 8
   rotateSpeed: 8
@@ -245,7 +248,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: cd0fc6837b2e72b43a09b7222b2acd8e, type: 3}
-  m_Color: {r: 0.99264705, g: 0.5882353, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.5882353, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

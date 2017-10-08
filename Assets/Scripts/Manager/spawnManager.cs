@@ -24,11 +24,19 @@ public class SpawnManager : MonoBehaviour {
 
     public PlayerHealth playerHealth;
 
+    public AudioSource audioSource;
+
     public Transform player;
 
     public float spawnViewportMargin = 0.6f;
 
+    public RectTransform roundPanel;
+
+    public Text roundPanelText;
+
     private Transform enemyStorage;
+
+    private bool isMoving;
 
     public Text roundText;
 
@@ -37,15 +45,36 @@ public class SpawnManager : MonoBehaviour {
     public int startSpawnCount;
 
     void Start () {
-		//Transform fallenWeaponStorage = new GameObject("FallenStorage").transform;
-		//fallenWeaponStorage.tag = "FallenStorage";
+        roundPanel.anchoredPosition = new Vector2(800, 0);
+        //Transform fallenWeaponStorage = new GameObject("FallenStorage").transform;
+        //fallenWeaponStorage.tag = "FallenStorage";
         enemyStorage = new GameObject("EnemyStorage").transform;
 
+        audioSource.Play();
+
         StartCoroutine(StartGame());
-        StartCoroutine(GameOver());
+        StartCoroutine(GameOverCheck());
     }
 
-    private IEnumerator GameOver()
+    void Update()
+    {
+        if (isMoving)
+        {
+            if (roundPanel.anchoredPosition.x >= 20)
+            {
+                roundPanel.localPosition += Vector3.left * 20f;
+            }
+        }
+        else
+        {
+            if (roundPanel.anchoredPosition.x <= 780f)
+            {
+                roundPanel.localPosition += Vector3.right * 20f;
+            }
+        }
+    }
+
+    private IEnumerator GameOverCheck()
     {
         while(true)
         {
@@ -68,11 +97,23 @@ public class SpawnManager : MonoBehaviour {
 
     private IEnumerator StartGame()
     {
-        float round = 0f;
+        float round = 1f;
 
         while (true)
         {
+            if(round != 1f)
+                playerHealth.FillHealth();
+
+            isMoving = true;
+
+            roundPanelText.text = "Round " + round;
+
             roundText.text = "Round : " + round;
+
+            yield return new WaitForSeconds(2f);
+
+            isMoving = false;
+
             roundState = State.Spawning;
 
             yield return EnemySpawn(round);
@@ -86,7 +127,6 @@ public class SpawnManager : MonoBehaviour {
             {
                 upgradeManagerScript.isLevelUp = true;
                 upgradeManagerScript.isOnButton = false;
-                playerHealth.FillHealth();
             }
 
             round += 1f;
@@ -100,7 +140,7 @@ public class SpawnManager : MonoBehaviour {
 
         WaitForSeconds spawnDelay = new WaitForSeconds(0.5f);
 
-        int spawnMonsterCount = 1 + (int)(round * 0.2f);
+        int spawnMonsterCount = startSpawnCount + (int)(round * 0.2f);
 
         if (spawnMonsterCount >= maxSpawnCount) spawnMonsterCount = maxSpawnCount;
 

@@ -255,7 +255,7 @@ public class Weapon : MonoBehaviour {
 
         enemy.isOnDamage = true;
         isTakeDamage = true;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         isTakeDamage = false;
         enemy.isOnDamage = false;
     }

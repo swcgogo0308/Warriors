@@ -24,6 +24,12 @@ public class Enemy : MonoBehaviour {
 
     public Animator anim;
 
+    public AudioSource audioSource;
+
+    public AudioClip takeDamage;
+
+    public AudioClip death;
+
     private Color myColor;
 
     Vector3 direction;
@@ -72,7 +78,6 @@ public class Enemy : MonoBehaviour {
     private void Awake()
     {
         state = State.Tracking;
-        myColor = GetComponent<SpriteRenderer>().color;
     }
 
     void Start () {
@@ -103,6 +108,8 @@ public class Enemy : MonoBehaviour {
 
         StartCoroutine(CheckState());
         StartCoroutine(CheckFoward());
+
+        myColor = GetComponent<SpriteRenderer>().color;
     }
 	
 	// Update is called once per frame
@@ -318,6 +325,9 @@ public class Enemy : MonoBehaviour {
         }
 
         isDamage = true;
+
+        audioSource.clip = takeDamage;
+        audioSource.Play();
     }
 
     void DamageEffect()
@@ -332,7 +342,6 @@ public class Enemy : MonoBehaviour {
         }
 
         isDamage = false;
-
     }
 
     public void SetStrength(float strength)
@@ -353,7 +362,12 @@ public class Enemy : MonoBehaviour {
         anim.SetBool("isDead", true);
 
 
-        yield return new WaitForSeconds(1.03f);
+        yield return new WaitForSeconds(0.8f);
+
+        audioSource.clip = death;
+        audioSource.Play();
+
+        yield return new WaitForSeconds(0.4f);
 
         if (Random.Range(1, 100) <= weaponFallenProbabile)
         {
