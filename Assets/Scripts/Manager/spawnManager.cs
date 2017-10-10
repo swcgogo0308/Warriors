@@ -45,7 +45,7 @@ public class SpawnManager : MonoBehaviour {
     public int startSpawnCount;
 
     void Start () {
-        roundPanel.anchoredPosition = new Vector2(800, 0);
+        roundPanel.anchoredPosition = new Vector2(1925, 0);
         //Transform fallenWeaponStorage = new GameObject("FallenStorage").transform;
         //fallenWeaponStorage.tag = "FallenStorage";
         enemyStorage = new GameObject("EnemyStorage").transform;
@@ -60,17 +60,21 @@ public class SpawnManager : MonoBehaviour {
     {
         if (isMoving)
         {
-            if (roundPanel.anchoredPosition.x >= 20)
+            if (roundPanel.anchoredPosition.x > 0f)
             {
-                roundPanel.localPosition += Vector3.left * 20f;
+                roundPanel.localPosition += Vector3.left * 30f;
             }
+            else
+                roundPanel.anchoredPosition = new Vector2(0, 0);
         }
         else
         {
-            if (roundPanel.anchoredPosition.x <= 780f)
+            if (roundPanel.anchoredPosition.x < 1925f)
             {
-                roundPanel.localPosition += Vector3.right * 20f;
+                roundPanel.localPosition += Vector3.right * 30f;
             }
+            else
+                roundPanel.anchoredPosition = new Vector2(1925, 0);
         }
     }
 
@@ -87,7 +91,7 @@ public class SpawnManager : MonoBehaviour {
                 for (int i = 0; i < enemyScripts.Length; i++)
                     enemyScripts[i].gameObject.SetActive(false);
 
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(4f);
                 break;
             }
         }
@@ -97,7 +101,7 @@ public class SpawnManager : MonoBehaviour {
 
     private IEnumerator StartGame()
     {
-        float round = 1f;
+        float round = 10f;
 
         while (true)
         {
@@ -232,7 +236,7 @@ public class SpawnManager : MonoBehaviour {
 
             if (enemysObject.Length == 0)
             {
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(4f);
                 roundState = State.AllKill;
                 yield break;
             }

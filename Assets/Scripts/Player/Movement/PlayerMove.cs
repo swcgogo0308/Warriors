@@ -104,7 +104,6 @@ public class PlayerMove : MonoBehaviour
             transform.eulerAngles = new Vector3(0, 0, angle + 180.0f);
         #elif UNITY_ANDROID
             if(Input.touchCount <= 0) return;
-
             Vector2 pos = Input.GetTouch(0).position;
             Vector3 theTouch = new Vector3(pos.x, pos.y, 0.0f);   
             Vector3 mpos = Camera.main.ScreenToWorldPoint(theTouch.position);

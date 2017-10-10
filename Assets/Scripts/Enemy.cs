@@ -346,7 +346,7 @@ public class Enemy : MonoBehaviour {
 
     public void SetStrength(float strength)
     {
-        max_health  += (int)strength * 10 + max_health;
+        max_health += (int)strength * 10;
 
         currentHealth = max_health;
     }

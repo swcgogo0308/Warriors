@@ -23,7 +23,7 @@ public class UpgradeManager : MonoBehaviour {
 
         rt = GetComponent<RectTransform>();
 
-        rt.anchoredPosition = new Vector2(0, -115f);
+        rt.anchoredPosition = new Vector2(0, -300f);
     }
 	
 	// Update is called once per frame
@@ -31,17 +31,21 @@ public class UpgradeManager : MonoBehaviour {
         
         if(isLevelUp)
         {
-            if (rt.anchoredPosition.y <= 0)
+            if (rt.anchoredPosition.y < 0)
             {
-                rt.localPosition += Vector3.up * 3f;
+                rt.localPosition += Vector3.up * 30f;
             }
+            else
+                rt.anchoredPosition = new Vector2(0, 0f);
         }
         else
         {
-            if (rt.anchoredPosition.y >= -115f)
+            if (rt.anchoredPosition.y > -300f)
             {
-                rt.localPosition += Vector3.down * 3f;
+                rt.localPosition += Vector3.down * 30f;
             }
+            else
+                rt.anchoredPosition = new Vector2(0, -300f);
         }
     }
 
@@ -68,7 +72,7 @@ public class UpgradeManager : MonoBehaviour {
 
         isOnButton = true;
 
-        playerHealthScript.SetStrength(50);
+        playerHealthScript.SetStrength(20);
 
         playerHealthScript.LevelUp();
 
