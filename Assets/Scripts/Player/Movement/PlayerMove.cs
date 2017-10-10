@@ -95,7 +95,7 @@ public class PlayerMove : MonoBehaviour
 
     void Rotate()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
             Vector3 mpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 target;
             target.x = mpos.x - transform.position.x;
@@ -103,14 +103,16 @@ public class PlayerMove : MonoBehaviour
             float angle = -1 * Mathf.Rad2Deg * Mathf.Atan2(target.x, target.y) + 90;
             transform.eulerAngles = new Vector3(0, 0, angle + 180.0f);
 
-        #elif UNITY_ANDROID
-            Vector3 mpos = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+#elif UNITY_ANDROID
+            Vector2 pos = Input.GetTouch(0).position;
+            Vector3 theTouch = new Vector3(pos.x, pos.y, 0.0f);   
+            Vector3 mpos = Camera.main.ScreenPointToRay(theTouch.position);
             Vector3 target;
             target.x = mpos.x - transform.position.x;
             target.y = mpos.y - transform.position.y;
             float angle = -1 * Mathf.Rad2Deg * Mathf.Atan2(target.x, target.y) + 90;
             transform.eulerAngles = new Vector3(0, 0, angle + 180.0f);
-        #endif
+#endif
     }
 
     private void SetupLimitArea()
