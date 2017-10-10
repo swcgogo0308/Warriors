@@ -41,4 +41,9 @@ public class Main : MonoBehaviour {
     {
         StartCoroutine(FadeOut());
     }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
 }
