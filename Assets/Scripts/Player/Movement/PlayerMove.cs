@@ -61,7 +61,7 @@ public class PlayerMove : MonoBehaviour
 		if (joystick.isDrag || myWeapon == null) return;
 
             if (Input.GetMouseButtonDown (0) && !myWeapon._isAttacking) {
-			t_Rotate ();
+			Rotate ();
 			Attack ();
 		}
 
@@ -83,7 +83,7 @@ public class PlayerMove : MonoBehaviour
 
         if (Input.GetTouch(0).phase == TouchPhase.Began && !myWeapon._isAttacking)
         {
-            t_Rotate();
+            Rotate();
             Attack();
         }
     }
@@ -93,35 +93,27 @@ public class PlayerMove : MonoBehaviour
         myWeapon.Attack(playerHealth.isDead);
     }
 
-    void t_Rotate()
+    void Rotate()
     {
-        Vector3 mpos = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
-        Vector3 target;
-        target.x = mpos.x - transform.position.x;
-        target.y = mpos.y - transform.position.y;
-        float angle = -1 * Mathf.Rad2Deg * Mathf.Atan2(target.x, target.y) + 90;
-        transform.eulerAngles = new Vector3(0, 0, angle + 180.0f);
+        #if UNITY_EDITOR
+            Vector3 mpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 target;
+            target.x = mpos.x - transform.position.x;
+            target.y = mpos.y - transform.position.y;
+            float angle = -1 * Mathf.Rad2Deg * Mathf.Atan2(target.x, target.y) + 90;
+            transform.eulerAngles = new Vector3(0, 0, angle + 180.0f);
+
+        #elif UNITY_ANDROID
+            Vector3 mpos = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+            Vector3 target;
+            target.x = mpos.x - transform.position.x;
+            target.y = mpos.y - transform.position.y;
+            float angle = -1 * Mathf.Rad2Deg * Mathf.Atan2(target.x, target.y) + 90;
+            transform.eulerAngles = new Vector3(0, 0, angle + 180.0f);
+        #endif
     }
 
-    void m_Rotate()
-    {
-        Vector3 mpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 target;
-        target.x = mpos.x - transform.position.x;
-        target.y = mpos.y - transform.position.y;
-        float angle = -1 * Mathf.Rad2Deg * Mathf.Atan2(target.x, target.y) + 90;
-        transform.eulerAngles = new Vector3(0, 0, angle + 180.0f);
-        /*
-        Vector3 mpos = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
-        Vector3 target;
-        target.x = mpos.x - transform.position.x;
-        target.y = mpos.y - transform.position.y;
-        float angle = -1 * Mathf.Rad2Deg * Mathf.Atan2(target.x, target.y) + 90;
-        transform.eulerAngles = new Vector3(0, 0, angle + 180.0f);
-        */
-    }
-
-	private void SetupLimitArea()
+    private void SetupLimitArea()
 	{
 		limitArea = MapManager.LimitArea.AddMargin(limitPadding);
 	}
