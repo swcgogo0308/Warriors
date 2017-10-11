@@ -34,11 +34,15 @@ public class SpawnManager : MonoBehaviour {
 
     public Text roundPanelText;
 
+    public int isEpicProbabile;
+
     private Transform enemyStorage;
 
     private bool isMoving;
 
     public Text roundText;
+
+    private float round;
 
     public int maxSpawnCount;
 
@@ -49,6 +53,8 @@ public class SpawnManager : MonoBehaviour {
         //Transform fallenWeaponStorage = new GameObject("FallenStorage").transform;
         //fallenWeaponStorage.tag = "FallenStorage";
         enemyStorage = new GameObject("EnemyStorage").transform;
+
+        PlayerPrefs.SetInt("EnemyStrenge_H", 0);
 
         audioSource.Play();
 
@@ -86,6 +92,7 @@ public class SpawnManager : MonoBehaviour {
 
             if (playerHealth.isDead)
             {
+
                 enemyScripts = FindObjectsOfType<Enemy>();
 
                 for (int i = 0; i < enemyScripts.Length; i++)
@@ -96,16 +103,23 @@ public class SpawnManager : MonoBehaviour {
             }
         }
 
+
+
         SceneManager.LoadScene("Main");
     }
 
     private IEnumerator StartGame()
     {
-        float round = 10f;
+        round = 1f;
 
         while (true)
         {
-            if(round != 1f)
+            if(round >= PlayerPrefs.GetFloat("BestRound"))
+                PlayerPrefs.SetFloat("BestRound", round);
+
+            PlayerPrefs.SetInt("EnemyStrenge_H",(int)round / 5);
+
+            if (round != 1f)
                 playerHealth.FillHealth();
 
             isMoving = true;
@@ -158,8 +172,9 @@ public class SpawnManager : MonoBehaviour {
             Enemy enemy = enemys[randomMonb];
             Weapon weapon = weapons[randomWeapon];
 
-            if (!(round < 10) && round % 10 == 0)
+            if (round % 10 == 0)
             {
+
                 if (count < spawnMonsterCount - 1)
                 {
                     while (weapon.weaponGrade != Weapon.Grade.Normal)
@@ -170,7 +185,7 @@ public class SpawnManager : MonoBehaviour {
                 }
                 else if (count == spawnMonsterCount - 1)
                 {
-                    while (weapon.weaponGrade != Weapon.Grade.Epic)
+                    while (weapon.weaponGrade != Weapon.Grade.Speacial)
                     {
                         randomWeapon = Random.Range(0, weapons.Length);
                         weapon = weapons[randomWeapon];
@@ -189,24 +204,37 @@ public class SpawnManager : MonoBehaviour {
                 weaponObject.playerHealth = playerHealth;
 
                 weaponObject.getButton = FindObjectOfType<Button>();
+
                 if (count < spawnMonsterCount - 1)
-                    enemyObject.SetStrength(0 + round * 0.2f);
+                    enemyObject.SetStrength(PlayerPrefs.GetInt("EnemyStrenge_H"));
+
                 else if (count == spawnMonsterCount - 1)
                 {
-                    enemyObject.SetStrength(0 + round * 0.2f * 5);
+                    enemyObject.SetStrength(PlayerPrefs.GetInt("EnemyStrenge_H") * 4);
                     enemyObject.GetComponent<SpriteRenderer>().color = new Color(255f, 100f, 0);
                 }
+
             }
 
             else
             {
 
-                while (weapon.weaponGrade != Weapon.Grade.Normal)
+                if (Random.Range(1, 100) <= isEpicProbabile)
                 {
-                    randomWeapon = Random.Range(0, weapons.Length);
-                    weapon = weapons[randomWeapon];
+                    while (weapon.weaponGrade != Weapon.Grade.Epic)
+                    {
+                        randomWeapon = Random.Range(0, weapons.Length);
+                        weapon = weapons[randomWeapon];
+                    }
                 }
-
+                else
+                {
+                    while (weapon.weaponGrade != Weapon.Grade.Normal)
+                    {
+                        randomWeapon = Random.Range(0, weapons.Length);
+                        weapon = weapons[randomWeapon];
+                    }
+                }
 
                 Enemy enemyObject = Instantiate(enemy.gameObject).GetComponent<Enemy>();
                 Weapon weaponObject = Instantiate(weapon.gameObject).GetComponent<Weapon>();
@@ -220,6 +248,8 @@ public class SpawnManager : MonoBehaviour {
                 weaponObject.playerHealth = playerHealth;
 
                 weaponObject.getButton = FindObjectOfType<Button>();
+
+                enemyObject.SetStrength(PlayerPrefs.GetInt("EnemyStrenge_H"));
             }
 
         }

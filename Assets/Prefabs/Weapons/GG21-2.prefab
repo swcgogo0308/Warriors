@@ -158,7 +158,7 @@ MonoBehaviour:
   playerHealth: {fileID: 0}
   getButtonImage: {fileID: 0}
   getButton: {fileID: 0}
-  damage: 20
+  damage: 15
   attackDelay: 0.2
   isEpic: 0
   isSpeacial: 0

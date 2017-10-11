@@ -19,8 +19,6 @@ public class UpgradeManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        PlayerPrefs.SetInt("DamageUp", 0);
-
         rt = GetComponent<RectTransform>();
 
         rt.anchoredPosition = new Vector2(0, -300f);
@@ -57,7 +55,7 @@ public class UpgradeManager : MonoBehaviour {
 
         int saveDamage = PlayerPrefs.GetInt("DamageUp");
 
-        PlayerPrefs.SetInt("DamageUp", saveDamage + 10);
+        PlayerPrefs.SetInt("DamageUp", saveDamage + 20);
 
         playerMoveScript.myWeapon.damage += PlayerPrefs.GetInt("DamageUp");
 

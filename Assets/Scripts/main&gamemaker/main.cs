@@ -1,15 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 public class Main : MonoBehaviour {
 
+    public Text bestRoundText;
     public AudioSource audioSource;
+    private float bestRound;
     CanvasGroup canvasGrop;
 
     void Start()
     {
+        PlayerPrefs.SetInt("DamageUp", 0);
         canvasGrop = GetComponent<CanvasGroup>();
         StartCoroutine(FadeIn());
+        bestRound = PlayerPrefs.GetFloat("BestRound");
+        bestRoundText.text = "Best Round : " + bestRound;
     }
 
     IEnumerator FadeOut(){//FadeOut

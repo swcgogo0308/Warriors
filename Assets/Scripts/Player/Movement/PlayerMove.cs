@@ -79,7 +79,7 @@ public class PlayerMove : MonoBehaviour
 
     private void OnTouch()
     {
-        if (joystick.isDrag || myWeapon == null) return;
+        if (EventSystem.current.IsPointerOverGameObject() || myWeapon == null) return;
 
         if (Input.GetTouch(0).phase == TouchPhase.Began && !myWeapon._isAttacking)
         {
