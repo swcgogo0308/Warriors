@@ -11,10 +11,11 @@ public class Main : MonoBehaviour {
 
     void Start()
     {
-        PlayerPrefs.SetInt("DamageUp", 0);
+		PlayerPrefs.DeleteKey ("DamageUp");
         canvasGrop = GetComponent<CanvasGroup>();
         StartCoroutine(FadeIn());
-        bestRound = PlayerPrefs.GetFloat("BestRound");
+        bestRound = PlayerPrefs.GetFloat("BestRound", 0);
+		PlayerPrefs.Save ();
         bestRoundText.text = "Best Round : " + bestRound;
     }
 
@@ -27,7 +28,7 @@ public class Main : MonoBehaviour {
         canvasGrop.interactable = false;
         yield return null;
 
-        Application.LoadLevel("InGame");
+		Application.LoadLevel("InGame");
     }
 
     IEnumerator FadeIn()
@@ -36,7 +37,7 @@ public class Main : MonoBehaviour {
 
         while (canvasGrop.alpha < 1)
         {
-            canvasGrop.alpha += Time.deltaTime / 1.2f;
+            canvasGrop.alpha += Time.deltaTime / 0.5f;
             yield return null;
         }
 
@@ -45,11 +46,20 @@ public class Main : MonoBehaviour {
 
     public void Starting()
     {
-        StartCoroutine(FadeOut());
+		canvasGrop.alpha = 1;
+    	StartCoroutine (FadeOut());
     }
 
     public void Exit()
     {
         Application.Quit();
     }
+
+	public void Delate()
+	{
+		PlayerPrefs.DeleteAll ();
+		bestRound = PlayerPrefs.GetFloat("BestRound", 0);
+		PlayerPrefs.Save ();
+		bestRoundText.text = "Best Round : " + bestRound;
+	}
 }

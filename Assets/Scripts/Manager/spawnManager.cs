@@ -50,8 +50,6 @@ public class SpawnManager : MonoBehaviour {
 
     void Start () {
         roundPanel.anchoredPosition = new Vector2(1925, 0);
-        //Transform fallenWeaponStorage = new GameObject("FallenStorage").transform;
-        //fallenWeaponStorage.tag = "FallenStorage";
         enemyStorage = new GameObject("EnemyStorage").transform;
 
         PlayerPrefs.SetInt("EnemyStrenge_H", 0);
@@ -114,6 +112,9 @@ public class SpawnManager : MonoBehaviour {
 
         while (true)
         {
+			if (playerHealth.isDead)
+				yield break;
+			
             if(round >= PlayerPrefs.GetFloat("BestRound"))
                 PlayerPrefs.SetFloat("BestRound", round);
 

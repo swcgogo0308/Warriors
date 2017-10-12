@@ -64,17 +64,6 @@ public class PlayerMove : MonoBehaviour
 			Rotate ();
 			Attack ();
 		}
-
-		/*else if (Input.GetMouseButton(0)) {
-			if(!myWeapon._isAttacking)
-				Rotate ();
-			myWeapon.Shild (true);
-		}
-
-		else if (Input.GetMouseButtonUp (0)) {
-
-			myWeapon.Shild (false);
-		}*/
 	}
 
     private void OnTouch()

@@ -131,7 +131,7 @@ public class Enemy : MonoBehaviour {
 
     private void Move()
     {
-        if (myWeapon._isAttacking) return;
+		if (myWeapon._isAttacking || (isRange && state == State.Attacking)) return;
 
         Vector3 movePos;
 
@@ -293,6 +293,8 @@ public class Enemy : MonoBehaviour {
 
                     isRange = true;
 
+					Rotate(true);
+
                     Invoke("Attack", myWeapon.attackDelay);
 
                     yield return new WaitForSeconds(1f);
@@ -308,8 +310,6 @@ public class Enemy : MonoBehaviour {
     private void Attack()
     {
         if (myWeapon._isAttacking || isDead) return;
-
-        Rotate(true);
 
         myWeapon.Attack(isDead);
 
