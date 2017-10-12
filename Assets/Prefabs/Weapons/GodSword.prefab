@@ -114,8 +114,8 @@ MonoBehaviour:
   playerHealth: {fileID: 0}
   getButtonImage: {fileID: 0}
   getButton: {fileID: 0}
-  damage: 20
-  attackDelay: 0.2
+  damage: 25
+  attackDelay: 2
   isEpic: 0
   isSpeacial: 0
   _isButtonActive: 0
@@ -157,7 +157,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c623c63b843c9194a8a7686bc850871b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8455882, g: 0.59066826, b: 0.59066826, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

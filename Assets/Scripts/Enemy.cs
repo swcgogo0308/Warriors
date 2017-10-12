@@ -121,7 +121,10 @@ public class Enemy : MonoBehaviour {
         if (myWeapon._isAttacking)
         {
             state = State.Tracking;
-			StartCoroutine(BackMovingDelay());
+            if (Random.Range(1, 100) <= 30)
+            {
+                StartCoroutine(BackMovingDelay());
+            }
         }
 
         if (isDead) return;
@@ -174,7 +177,7 @@ public class Enemy : MonoBehaviour {
 
                     if(distance <= attackRange * 2f)
                     {
-                        state = State.Attacking;
+                        //state = State.Attacking;
                     }
 
                     if (distance <= trackingRange)
@@ -187,14 +190,25 @@ public class Enemy : MonoBehaviour {
                 break;
 
             case State.Attacking:
+                if (isBackMoving)
+                {
+                    if (distance > trackingRange) return;
 
-                if (isRange) return;
+                    movePos = transform.position + (-direction * moveSpeed * Time.deltaTime);
 
-                Rotate(false);
+                    transform.position = movePos;
 
-                movePos = transform.position + (direction * moveSpeed * Time.deltaTime);
+                }
+                else
+                {
+                    if (isRange) return;
 
-                transform.position = movePos;
+                    Rotate(false);
+
+                    movePos = transform.position + (direction * moveSpeed * Time.deltaTime);
+
+                    transform.position = movePos;
+                }
 
                 break;
             }
@@ -219,7 +233,7 @@ public class Enemy : MonoBehaviour {
 
 		isBackMoving = true;
 
-		yield return new WaitForSeconds (Random.Range(1.5f, 2f));
+		yield return new WaitForSeconds (1f);
 
 		isBackMoving = false;
 	}
@@ -247,7 +261,7 @@ public class Enemy : MonoBehaviour {
 
                 stateDelay = true;
 
-                yield return new WaitForSeconds(Random.Range(3, 8));
+                yield return new WaitForSeconds(myWeapon.attackDelay);
 
                 state = State.Attacking;
 
@@ -295,7 +309,7 @@ public class Enemy : MonoBehaviour {
 
 					Rotate(true);
 
-                    Invoke("Attack", myWeapon.attackDelay);
+                    Attack();
 
                     yield return new WaitForSeconds(1f);
 
@@ -391,4 +405,12 @@ public class Enemy : MonoBehaviour {
 				myWeapon = child.GetComponent<Weapon>();
 		}
 	}
+
+    private void OnTriggerEnter2D(Collider2D hit)
+    {
+        if(hit.tag == "Player")
+        {
+            StartCoroutine(BackMovingDelay());
+        }
+    }
 }
