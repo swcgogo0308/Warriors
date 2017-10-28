@@ -68,9 +68,9 @@ public class PlayerMove : MonoBehaviour
 
     private void OnTouch()
     {
-        if (EventSystem.current.IsPointerOverGameObject() || myWeapon == null) return;
+        if (EventSystem.current.IsPointerOverGameObject(0) || myWeapon == null) return;
 
-        if (Input.GetTouch(0).phase == TouchPhase.Began && !myWeapon._isAttacking)
+        if (Input.touchCount > 0 && !myWeapon._isAttacking)
         {
             Rotate();
             Attack();
@@ -95,7 +95,7 @@ public class PlayerMove : MonoBehaviour
             if(Input.touchCount <= 0) return;
             Vector2 pos = Input.GetTouch(0).position;
             Vector3 theTouch = new Vector3(pos.x, pos.y, 0.0f);   
-            Vector3 mpos = Camera.main.ScreenToWorldPoint(theTouch.position);
+            Vector3 mpos = Camera.main.ScreenToWorldPoint(theTouch);
             Vector3 target;
             target.x = mpos.x - transform.position.x;
             target.y = mpos.y - transform.position.y;
