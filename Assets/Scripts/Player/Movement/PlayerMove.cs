@@ -68,7 +68,7 @@ public class PlayerMove : MonoBehaviour
 
     private void OnTouch()
     {
-        if (EventSystem.current.IsPointerOverGameObject(0) || myWeapon == null) return;
+        if (myWeapon == null) return;
 
         if (Input.touchCount > 0 && !myWeapon._isAttacking)
         {
@@ -81,7 +81,7 @@ public class PlayerMove : MonoBehaviour
     {
         myWeapon.Attack(playerHealth.isDead);
     }
-
+    
     void Rotate()
     {
         #if UNITY_EDITOR

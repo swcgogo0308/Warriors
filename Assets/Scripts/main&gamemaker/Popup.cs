@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameMakerPopup : MonoBehaviour {
+public class Popup : MonoBehaviour {
 
     public void Up()
     {
