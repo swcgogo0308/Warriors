@@ -68,7 +68,7 @@ public class PlayerMove : MonoBehaviour
 
     private void OnTouch()
     {
-        if (myWeapon == null) return;
+        if (myWeapon == null && EventSystem.current.IsPointerOverGameObject()) return;
 
         if (Input.touchCount > 0 && !myWeapon._isAttacking)
         {
