@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -68,7 +69,7 @@ public class PlayerMove : MonoBehaviour
 
     private void OnTouch()
     {
-        if (myWeapon == null && EventSystem.current.IsPointerOverGameObject()) return;
+		if (myWeapon == null && IsPointerOverUIObject()) return;
 
         if (Input.touchCount > 0 && !myWeapon._isAttacking)
         {
@@ -103,6 +104,16 @@ public class PlayerMove : MonoBehaviour
             transform.eulerAngles = new Vector3(0, 0, angle + 180.0f);
         #endif
     }
+
+	private bool IsPointerOverUIObject() //UI touch check
+	{
+		PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+		eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+
+		List<RaycastResult> results = new List<RaycastResult>();
+		EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+		return results.Count > 0;
+	}
 
     private void SetupLimitArea()
 	{
