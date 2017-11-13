@@ -71,7 +71,7 @@ public class PlayerMove : MonoBehaviour
     {
 		if (myWeapon == null && IsPointerOverUIObject()) return;
 
-        if (Input.touchCount > 0 && !myWeapon._isAttacking)
+        if (Input.GetTouch(0).phase == TouchPhase.Began && !myWeapon._isAttacking)
         {
             Rotate();
             Attack();
@@ -108,7 +108,7 @@ public class PlayerMove : MonoBehaviour
 	private bool IsPointerOverUIObject() //UI touch check
 	{
 		PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
-		eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+		eventDataCurrentPosition.position = new Vector2(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y);
 
 		List<RaycastResult> results = new List<RaycastResult>();
 		EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
